@@ -1,0 +1,8 @@
+<h1>{{ track.title }}</h1>
+<h2>{{ track.artist }}</h2>
+
+<div class="player-area">
+    <img src="{{ track.albumcover }}" alt="">
+    <app-spotify-not-authenticated *ngIf="!tokenFound"></app-spotify-not-authenticated>
+    <app-spotify-player *ngIf="tokenFound" [track]="track" [auth_token]="auth_token"></app-spotify-player>
+</div>

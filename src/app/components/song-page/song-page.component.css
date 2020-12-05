@@ -1,0 +1,19 @@
+h1{
+    text-align: center;
+}
+
+h2{
+    font-style: italic;
+    text-align: center;
+    font-size: large;
+}
+
+img{
+    border-radius: 5px;
+    width: 275px;
+    height: 275px;
+}
+
+.player-area{
+    width:275px;
+}

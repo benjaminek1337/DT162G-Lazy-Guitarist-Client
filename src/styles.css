@@ -1,5 +1,10 @@
 /* You can add global styles to this file, and also import other style files */
+html{
+    color: white;
+    background: linear-gradient(to right,#20423e, #19312b, #102722);
+}
 body{
     font-family: Arial, Helvetica, sans-serif;
-    background: linear-gradient(to right,#2c5364, #203a43, #0f2027);
+    width:960px;
+    margin:auto;
 }

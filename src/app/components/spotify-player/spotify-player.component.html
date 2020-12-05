@@ -1,3 +1,18 @@
-<img src="{{ track.albumcover }}" alt="">
+<!-- <img src="{{ track.albumcover }}" alt="">
 <p>{{ track.title }}</p>
+ -->
 
+<div class="player-area">
+    <div class="song-duration">
+        <input type="range" [min]="0" [value]="playbackPosition" [max]="durationSlider" (change)="durationSliderChange($event.target.value)" class="duration-slider" id="song-duration-slider">
+    </div>
+    <button id="btn-playpause" (click)="playBtnClick()" [class]="playBtn"></button>
+    <button class="btn-repeat-thirty" (click)="backThirtySecBtnClick()" id="btn-repeat-thirty"></button>
+    <button class="btn-repeat-ten" (click)="backTenSecBtnClick()" id="btn-repeat-ten"></button>
+    <button class="btn-repeat-custom" (click)="backIntervalBtnClick()" id="btn-repeat-custom"></button>
+    <div class="volume-area">
+        <button id="vol" [class]="volumeBtn" (click)="volBtnClick()" class="high"></button>
+        <input type="range" [min]="0" [max]="100" [value]="volume" (change)="volSliderChange($event.target.value)" class="volume-slider" id="volume-slider">
+        <div class="spotify-logo"></div>
+    </div>
+</div>

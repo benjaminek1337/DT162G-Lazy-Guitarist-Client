@@ -1,0 +1,154 @@
+.player-area{
+    background-color: rgba(209, 209, 209, 0.068);
+    padding:10px;
+    border-radius: 5px;
+}
+
+#img-container{
+    margin-bottom:10px;
+}
+
+#btn-playpause{
+    margin-right:10px;
+    background-size: cover;
+    cursor: pointer;
+    border:none;
+    height:47px;
+    width:47px;
+}
+
+#btn-playpause.playing{
+    background:url("../../images/icons/pause-music.png");
+    background-size: cover;
+}
+
+#btn-playpause.paused{
+    background:url("../../images/icons/play-music.png");
+    background-size: cover;
+}
+
+#vol{
+    background-size: cover;
+    cursor: pointer;
+    border:none;
+    height:25px;
+    width:25px;
+}
+
+#vol.high{
+    background:url("../../images/icons/high-vol-music.png");
+    background-size: cover;
+}
+
+#vol.low{
+    background:url("../../images/icons/lo-vol-music.png");
+    background-size: cover;
+}
+
+#vol.mute{
+    background:url("../../images/icons/no-vol-music.png");
+    background-size: cover;
+}
+
+.spotify-logo{
+    background: url("../../images/icons/spotify-logo.png");
+    background-size: cover;
+    height:25px;
+    width:25px;
+    float:right;
+}
+
+.btn-repeat-thirty{
+    background:url("../../images/icons/repeat-30.png");
+    background-size: cover;
+    cursor: pointer;
+    border:none;
+    height:47px;
+    width:47px;
+    margin-right:10px;
+}
+
+.btn-repeat-ten{
+    background:url("../../images/icons/repeat-10.png");
+    background-size: cover;
+    cursor: pointer;
+    border:none;
+    height:47px;
+    width:47px;
+    margin-right:10px;
+}
+
+.btn-repeat-custom{
+    background:url("../../images/icons/repeat-music.png");
+    background-size: cover;
+    cursor: pointer;
+    border:none;
+    height:47px;
+    width:47px;
+    float:right
+}
+
+.volume-area {
+    margin:auto;
+    margin-top:10px;
+    width:255px;
+    margin-left:0px;
+}
+
+.volume-slider {
+    position: relative;
+    top:4px;
+    -webkit-appearance: none;
+    width: 60%;
+    height: 5px;
+    background: white;
+    border-width: 1px;
+    border-color: black;
+    border-radius: 10px;
+}
+
+.volume-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 10px;
+    height: 10px;
+    background: black;
+    cursor: pointer;
+}
+
+.volume-slider::-moz-range-thumb {
+    width: 10px;
+    height: 10px;
+    background:  black;
+    cursor: pointer;
+}
+
+.song-duration{
+    width:98%;
+}
+
+.duration-slider {
+    margin-bottom:10px;
+    -webkit-appearance: none;
+    width: 100%;
+    height: 10px;
+    border-radius: 10px;
+    background: #ffffff;
+}
+
+
+.duration-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 12px;
+    height: 12px;
+    background: rgb(124, 165, 122);
+    cursor: pointer;
+}
+
+.duration-slider::-moz-range-thumb {
+    width: 12px;
+    height: 12px;
+    background:  rgb(124, 165, 122);
+    cursor: pointer;
+}

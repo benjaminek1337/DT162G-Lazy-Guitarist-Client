@@ -1,0 +1,13 @@
+h1{
+    cursor: pointer;
+    margin-bottom:20px;
+    margin-top:0px;
+    font-size: xx-large;
+    float: left;
+}
+h3{
+    cursor: pointer;
+    padding-top:13px;
+    margin:0px;
+    float:right;
+}

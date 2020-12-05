@@ -4,4 +4,5 @@ export class Track{
     artist:string;
     album:string;
     albumcover:string;
+    duration:number;
 }

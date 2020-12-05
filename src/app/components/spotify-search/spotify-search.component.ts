@@ -18,6 +18,7 @@ export class SpotifySearchComponent implements OnInit {
   @Output() sendTrack: EventEmitter<Track> = new EventEmitter();
 
   ngOnInit(): void {
+
   }
 
   
@@ -34,7 +35,8 @@ export class SpotifySearchComponent implements OnInit {
               artist: element.artists[0].name,
               album: element.album.name,
               title: element.name,
-              albumcover: element.album.images[1].url
+              albumcover: element.album.images[1].url,
+              duration: t.duration_ms
             }
             this.tracks.push(track);
           }
@@ -46,9 +48,11 @@ export class SpotifySearchComponent implements OnInit {
   getTrack(track:Track){
     //this.sendTrack.emit(track);
     this.tracks.length = 0;
+    //Ta bort värde från sökrutan
     this.router.navigateByUrl("/", {skipLocationChange:true}).then(() => {
       this.router.navigate(["/song", track.id])
     });
+    //window.location.pathname = ("/song/" + track.id);
   }
 
 }

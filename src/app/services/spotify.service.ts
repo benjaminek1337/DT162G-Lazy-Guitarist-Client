@@ -17,4 +17,8 @@ export class SpotifyService {
   getTrackByUri(query){
     return this.http.get<any>(this.url + "trackUri=" + query);
   }
+
+  getAuthenticated(redirectUrl){
+    window.location.href = this.url + "auth?url=" + redirectUrl;
+  }
 }

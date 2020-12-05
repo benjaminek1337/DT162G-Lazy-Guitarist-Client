@@ -1,9 +1,11 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { SpotifyPlayerComponent } from "./components/spotify-player/spotify-player.component"
+import { SongPageComponent } from "./components/song-page/song-page.component"
+import { StartPageComponent } from "./components/start-page/start-page.component"
 
 const routes: Routes = [
-  { path: "song/:id", component: SpotifyPlayerComponent}
+  { path: "", component:StartPageComponent},
+  { path: "song/:id", component: SongPageComponent}
 ];
 
 @NgModule({
