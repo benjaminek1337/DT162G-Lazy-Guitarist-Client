@@ -21,4 +21,14 @@ export class SpotifyService {
   getAuthenticated(redirectUrl){
     window.location.href = this.url + "auth?url=" + redirectUrl;
   }
+
+  getCurrentUser(token){
+    const headerDict = {
+      "Authorization": "Bearer " + token
+    }
+    const header = {
+      headers: new HttpHeaders(headerDict)
+    }
+    return this.http.get<any>("https://api.spotify.com/v1/me", header);
+  }
 }

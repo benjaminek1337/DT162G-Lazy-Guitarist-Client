@@ -14,6 +14,7 @@ export class SongPageComponent implements OnInit {
   track:Track;
   auth_token:any;
   tokenFound:boolean;
+  premiumUser:boolean;
 
 
   ngOnInit(): void {
@@ -46,5 +47,13 @@ export class SongPageComponent implements OnInit {
         this.tokenFound = false;
       }
     }
+    this.isPremiumUser();
+  }
+
+  isPremiumUser(){
+    this.spotifyService.getCurrentUser(this.auth_token).subscribe(u => {
+      if(u.product == "premium")
+        this.premiumUser = true;
+    });
   }
 }

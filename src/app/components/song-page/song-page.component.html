@@ -3,6 +3,7 @@
 
 <div class="player-area">
     <img src="{{ track.albumcover }}" alt="">
-    <app-spotify-not-authenticated *ngIf="!tokenFound"></app-spotify-not-authenticated>
-    <app-spotify-player *ngIf="tokenFound" [track]="track" [auth_token]="auth_token"></app-spotify-player>
+    <app-spotify-not-authenticated *ngIf="tokenFound === false"></app-spotify-not-authenticated>
+    <h5 *ngIf="tokenFound === true && premiumUser === false">Du har tyvärr inte ett Spotify Premium-konto. Rensa cookies och försök igen om du vill.</h5>
+    <app-spotify-player *ngIf="tokenFound === true && premiumUser === true" [track]="track" [auth_token]="auth_token"></app-spotify-player>
 </div>
