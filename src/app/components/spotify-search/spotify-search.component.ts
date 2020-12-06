@@ -1,4 +1,4 @@
-import { Component, OnInit, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { SpotifyService } from "../../services/spotify.service"
 import { Track } from "../../models/Track"
 import { Router } from "@angular/router"
@@ -15,7 +15,6 @@ export class SpotifySearchComponent implements OnInit {
   
   timeout;
   tracks:Track[] = [];
-  @Output() sendTrack: EventEmitter<Track> = new EventEmitter();
 
   ngOnInit(): void {
 
@@ -32,11 +31,11 @@ export class SpotifySearchComponent implements OnInit {
             const element = t.tracks.items[i];
             let track:Track = {
               id: element.id,
-              artist: element.artists[0].name,
-              album: element.album.name,
               title: element.name,
+              album: element.album.name,
               albumcover: element.album.images[1].url,
-              duration: t.duration_ms
+              artist: (element.artists.length > 1) ? this.getAllArtists(element) : element.artists[0].name,
+              duration: element.duration_ms
             }
             this.tracks.push(track);
           }
@@ -45,14 +44,24 @@ export class SpotifySearchComponent implements OnInit {
     }, 300) 
   }
 
+  getAllArtists(t:any):string{
+    let artists:string = "";
+      for (let i = 0; i < t.artists.length; i++) {
+        if(i == t.artists.length - 1){
+          artists += t.artists[i].name
+        } else {
+          artists += t.artists[i].name + ", ";
+        }
+      }
+    return artists;
+  }
+
   getTrack(track:Track){
-    //this.sendTrack.emit(track);
     this.tracks.length = 0;
-    //Ta bort värde från sökrutan
+    //försök töm sökruta
     this.router.navigateByUrl("/", {skipLocationChange:true}).then(() => {
-      this.router.navigate(["/song", track.id])
+      this.router.navigate(["/song/" + track.id])
     });
-    //window.location.pathname = ("/song/" + track.id);
   }
 
 }

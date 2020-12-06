@@ -17,3 +17,12 @@ img{
 .player-area{
     width:275px;
 }
+
+.ug-search{
+    cursor: pointer;
+}
+
+.ug-title{
+    font-style: italic;
+    font-weight: bold;
+}

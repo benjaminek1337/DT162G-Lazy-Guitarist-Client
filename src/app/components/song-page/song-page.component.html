@@ -7,3 +7,7 @@
     <h5 *ngIf="tokenFound === true && premiumUser === false">Du har tyvärr inte ett Spotify Premium-konto. Rensa cookies och försök igen om du vill.</h5>
     <app-spotify-player *ngIf="tokenFound === true && premiumUser === true" [track]="track" [auth_token]="auth_token"></app-spotify-player>
 </div>
+
+<div class="external-resources">
+    <p class="ug-search" (click)="ultimateGuitarSearch();">Sök efter <span class="ug-title">{{ track.title }}</span> på Ultimate Guitar</p>
+</div>

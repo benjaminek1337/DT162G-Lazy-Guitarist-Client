@@ -76,9 +76,9 @@ export class SpotifyPlayerComponent implements OnInit {
   ngOnInit(): void {
     //this.authenticate();
     getToken(this.auth_token);
-    getTrack(this.track.id)
-    this.loadAPI = new Promise((resolve) => {
-      this.loadSpotifySDKScript();
+    getTrack(this.track.id);
+    this.loadAPI = new Promise(async (resolve) => {
+      await this.loadSpotifySDKScript();
       resolve(true);
     });
     this.playBtn = "paused"
@@ -111,7 +111,7 @@ export class SpotifyPlayerComponent implements OnInit {
         this.loadSong();
         setTimeout(() => {
           this.playingOrPausedEvents();
-        }, 250);
+        }, 350);
         this.songLoaded = true;
       }
       player.togglePlay();
@@ -201,7 +201,7 @@ export class SpotifyPlayerComponent implements OnInit {
     }
   }
 
-  loadSpotifySDKScript(){
+  async loadSpotifySDKScript(){
     let isFound = false;
     let scripts = document.getElementsByTagName("script");
     for (let i = 0; i < scripts.length; i++) {
