@@ -18,6 +18,7 @@ export class SongPageComponent implements OnInit {
   auth_token:any;
   tokenFound:boolean;
   premiumUser:boolean;
+  authenticationRefreshInterval:any;
 
 
   ngOnInit(): void {
@@ -34,6 +35,11 @@ export class SongPageComponent implements OnInit {
       this.cutOffUnwantedSongTitleParts();
     })
     this.authenticate();
+  }
+
+  ngOnDestroy(): void{
+    if(this.authenticationRefreshInterval)
+      clearInterval(this.authenticationRefreshInterval);
   }
 
   getAllArtists(t:any):string{
@@ -76,13 +82,17 @@ export class SongPageComponent implements OnInit {
           console.log("Authentication Token Found");
           this.auth_token = cookiePair[1];
           this.tokenFound = true;
+          this.isPremiumUser();
+          this.authenticationRefreshInterval = setInterval(() => {
+            this.authenticate();
+          }, 3550000)
       }
       else {
+        clearInterval(this.authenticationRefreshInterval);
         console.log("Authentication Token Not Found")
         this.tokenFound = false;
       }
     }
-    this.isPremiumUser();
   }
 
   isPremiumUser():void{
