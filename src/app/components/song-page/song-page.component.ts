@@ -37,11 +37,6 @@ export class SongPageComponent implements OnInit {
     this.authenticate();
   }
 
-  ngOnDestroy(): void{
-    if(this.authenticationRefreshInterval)
-      clearInterval(this.authenticationRefreshInterval);
-  }
-
   getAllArtists(t:any):string{
     let artists:string = "";
       for (let i = 0; i < t.artists.length; i++) {
