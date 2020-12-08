@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { SpotifyService } from "../../services/spotify.service"
 import { Track } from "../../models/Track"
-import { Router } from "@angular/router"
+import { NavigationExtras, NavigationStart, Router } from "@angular/router"
 
 @Component({
   selector: 'app-spotify-search',
@@ -13,8 +13,9 @@ export class SpotifySearchComponent implements OnInit {
   constructor(private spotifyService:SpotifyService, private router:Router) { }
   
   
-  timeout;
-  tracks:Track[] = [];
+  timeout: any;
+  tracks: Track[] = [];
+  
 
   ngOnInit(): void {
 

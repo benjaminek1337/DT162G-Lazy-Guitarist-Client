@@ -1,4 +1,12 @@
 <div class="header">
     <h1 (click)="toIndex()">Lazy Guitarist</h1>
-    <h3>Logga in</h3>
+
+    <div *ngIf="!user_auth_token && !user">
+        <h3 (click)="toLogin()">Logga in</h3>
+        <h3 (click)="toRegister()">Registrera dig &nbsp;</h3>
+    </div>
+    <div *ngIf="user_auth_token && user">
+        <h3 (click)="logout()">Logga ut</h3>
+        <h3 (click)="toProfile()">{{ user.email }}s sida &nbsp;</h3>
+    </div>
 </div>

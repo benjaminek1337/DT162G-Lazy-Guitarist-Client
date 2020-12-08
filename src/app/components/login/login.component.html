@@ -1,0 +1,8 @@
+<div class="form">
+    <h1>Logga in</h1>
+    <form #registerForm="ngForm" (ngSubmit)="register(registerForm)">
+        <input class="form-input" type="email" name="email" placeholder="Epostadress..." ngModel required>
+        <input class="form-input" type="password" name="password" placeholder="Lösenord..." ngModel required>
+        <input type="submit" value="Logga in">
+    </form>
+</div>

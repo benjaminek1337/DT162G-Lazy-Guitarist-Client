@@ -1,13 +1,15 @@
-<h1>{{ track.title }}</h1>
-<h2>{{ track.artist }}</h2>
-
-<div class="player-area">
-    <img src="{{ track.albumcover }}" alt="">
-    <app-spotify-not-authenticated *ngIf="tokenFound === false"></app-spotify-not-authenticated>
-    <h5 *ngIf="tokenFound === true && premiumUser === false">Du har tyvärr inte ett Spotify Premium-konto. Rensa cookies och försök igen om du vill.</h5>
-    <app-spotify-player *ngIf="tokenFound === true && premiumUser === true" [track]="track" [auth_token]="auth_token"></app-spotify-player>
-</div>
-
-<div class="external-resources">
-    <p class="ug-search" (click)="ultimateGuitarSearch();">Sök efter <span class="ug-title">{{ track.title }}</span> på Ultimate Guitar</p>
+<div *ngIf="track" class="wrapper">
+    <h1>{{ track.title }}</h1>
+    <h2>{{ track.artist }}</h2>
+    
+    <div class="player-area">
+        <img src="{{ track.albumcover }}" alt="">
+        <app-spotify-not-authenticated *ngIf="!auth_token"></app-spotify-not-authenticated>
+        <h5 *ngIf="auth_token && premiumUser === false">Du har tyvärr inte ett Spotify Premium-konto. Rensa cookies och försök igen om du vill.</h5>
+        <app-spotify-player *ngIf="auth_token && premiumUser === true" [track]="track" [auth_token]="auth_token"></app-spotify-player>
+    </div>
+    
+    <div class="external-resources">
+        <p class="ug-search" (click)="ultimateGuitarSearch();">Sök efter <span class="ug-title">{{ track.title }}</span> på Ultimate Guitar</p>
+    </div>
 </div>

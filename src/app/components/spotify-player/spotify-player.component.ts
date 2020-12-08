@@ -46,7 +46,7 @@ window.onSpotifyWebPlaybackSDKReady = () => {
 
   // Playback status updates
   player.addListener('player_state_changed', state => { 
-    console.log(state); 
+    //console.log(state); 
   });
 };
 
@@ -72,35 +72,39 @@ export class SpotifyPlayerComponent implements OnInit {
   playbackPosition: number; // Current playback position
   songLoaded: boolean; // Has a song been loaded to the player
   playbackInterval: any; // Interval where the current state of the song is set
+  playerArea: string; // Property for playerarea div class
 
   ngOnInit(): void {
     //this.authenticate();
     getToken(this.auth_token);
     getTrack(this.track.id);
+    this.playerArea = "player-area-disabled";
+    // testar med .then istället
     this.loadAPI = new Promise(async (resolve) => {
-      await this.loadSpotifySDKScript();
+      this.loadSpotifySDKScript();
       resolve(true);
-    });
-    this.playBtn = "paused"
+    }).then(res => {
+      setTimeout(() => {
+        player.connect();
+        this.playerArea = "player-area";
+      }, 200)
+    })
+    .catch(res => console.log("Sumtin fuckd " + res));
+    this.playBtn = "paused";
     this.songLoaded = false;
     this.durationSlider = this.track.duration;
     this.playbackPosition = 0;
     this.volume = 80;
-    setTimeout(() => {
-      player.connect();      
-    }, 200)
   }
 
   @HostListener("window:beforeunload", ["$event"])
   unloadHandler(event: Event){
-    console.log("beforeUnload event fired")
     this.songLoaded = false;
     player.disconnect();
     clearInterval(this.playbackInterval);
   }
 
   ngOnDestroy(){
-    console.log("ngOnDestroy event fired")
     this.songLoaded = false;
     player.disconnect();
     clearInterval(this.playbackInterval);
@@ -201,7 +205,7 @@ export class SpotifyPlayerComponent implements OnInit {
     }
   }
 
-  async loadSpotifySDKScript(){
+  loadSpotifySDKScript(){
     let isFound = false;
     let scripts = document.getElementsByTagName("script");
     for (let i = 0; i < scripts.length; i++) {

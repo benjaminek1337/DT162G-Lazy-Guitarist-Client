@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Track } from 'src/app/models/Track';
-import { ActivatedRoute } from "@angular/router"
-import { SpotifyService } from "../../services/spotify.service"
+import { ActivatedRoute, Router } from "@angular/router";
+import { SpotifyService } from "../../services/spotify.service";
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-song-page',
@@ -12,16 +13,21 @@ export class SongPageComponent implements OnInit {
 
   constructor(
     private activatedRoute:ActivatedRoute,
-    private spotifyService:SpotifyService
-    ) { }
+    private spotifyService:SpotifyService,
+    private router:Router,
+    private cookieService:CookieService
+    ) {}
+    
   track:Track;
   auth_token:any;
-  tokenFound:boolean;
   premiumUser:boolean;
   authenticationRefreshInterval:any;
-
+  
+  // TODO - försöka passa in songdata från search genom routes. ActivatedRoute = manage states. FUGG svårare än tänkt. spara till sen
+  // TODO - Försöka få till ETT försök till auteneicering automatiskt
 
   ngOnInit(): void {
+    
     let id = this.activatedRoute.snapshot.paramMap.get("id");
     this.spotifyService.getTrackByUri(id).subscribe(t => {
       this.track = {
@@ -70,23 +76,15 @@ export class SongPageComponent implements OnInit {
   }
 
   authenticate():void{
-    let cookies = document.cookie.split(";");
-    for (let i = 0; i < cookies.length; i++) {
-      const cookiePair = cookies[i].split("=");
-      if(cookiePair[0].trim() == "access_token"){
-          console.log("Authentication Token Found");
-          this.auth_token = cookiePair[1];
-          this.tokenFound = true;
-          this.isPremiumUser();
-          this.authenticationRefreshInterval = setInterval(() => {
-            this.authenticate();
-          }, 3550000)
-      }
-      else {
-        clearInterval(this.authenticationRefreshInterval);
-        console.log("Authentication Token Not Found")
-        this.tokenFound = false;
-      }
+    if(this.cookieService.check("access_token")){
+      this.auth_token = this.cookieService.get("access_token");
+      this.isPremiumUser();
+      this.authenticationRefreshInterval = setInterval(() => {
+        this.authenticate();
+      }, 3550000)
+    } else {
+      clearInterval(this.authenticationRefreshInterval);
+      console.log("Authentication Token Not Found")
     }
   }
 

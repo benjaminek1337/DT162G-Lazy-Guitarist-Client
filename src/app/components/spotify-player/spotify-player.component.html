@@ -2,7 +2,7 @@
 <p>{{ track.title }}</p>
  -->
 
-<div class="player-area">
+<div [class]="playerArea">
     <div class="song-duration">
         <input type="range" [min]="0" [value]="playbackPosition" [max]="durationSlider" (change)="durationSliderChange($event.target.value)" class="duration-slider" id="song-duration-slider">
     </div>
