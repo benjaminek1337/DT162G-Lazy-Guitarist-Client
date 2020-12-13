@@ -3,6 +3,7 @@ import { Track } from 'src/app/models/Track';
 import { ActivatedRoute, Router } from "@angular/router";
 import { SpotifyService } from "../../services/spotify.service";
 import { CookieService } from 'ngx-cookie-service';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-song-page',
@@ -15,19 +16,28 @@ export class SongPageComponent implements OnInit {
     private activatedRoute:ActivatedRoute,
     private spotifyService:SpotifyService,
     private router:Router,
-    private cookieService:CookieService
+    private cookieService:CookieService,
+    private userservice:UserService
     ) {}
     
   track:Track;
   auth_token:any;
   premiumUser:boolean;
   authenticationRefreshInterval:any;
+  mySubscription:any;
+  isLoggedIn: boolean;
   
   // TODO - försöka passa in songdata från search genom routes. ActivatedRoute = manage states. FUGG svårare än tänkt. spara till sen
   // TODO - Försöka få till ETT försök till auteneicering automatiskt
 
   ngOnInit(): void {
+    this.isLoggedIn = this.cookieService.check("sid");
     
+    this.mySubscription = this.userservice.loginStatusChange().subscribe(s => {
+      this.isLoggedIn = s;
+      console.log(this.isLoggedIn);
+    });
+
     let id = this.activatedRoute.snapshot.paramMap.get("id");
     this.spotifyService.getTrackByUri(id).subscribe(t => {
       this.track = {
@@ -41,6 +51,12 @@ export class SongPageComponent implements OnInit {
       this.cutOffUnwantedSongTitleParts();
     })
     this.authenticate();
+  }
+
+  ngOnDestroy() {
+    if (this.mySubscription) {
+      this.mySubscription.unsubscribe();
+    }
   }
 
   getAllArtists(t:any):string{

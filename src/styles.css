@@ -1,10 +1,11 @@
 /* You can add global styles to this file, and also import other style files */
 html{
     color: white;
-    background: linear-gradient(to right,#20423e, #19312b, #102722);
+    background: linear-gradient(to right,#022d41, #012336, #001420);
 }
 body{
-    font-family: Arial, Helvetica, sans-serif;
+    /* font-family: Arial, Helvetica, sans-serif; */
+    font-family: 'Roboto', sans-serif;
     width:960px;
     margin:auto;
 }

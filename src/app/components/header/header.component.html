@@ -1,12 +1,21 @@
 <div class="header">
     <h1 (click)="toIndex()">Lazy Guitarist</h1>
 
-    <div *ngIf="!user_auth_token && !user">
+    <div *ngIf="!isLoggedIn && !loginForm">
         <h3 (click)="toLogin()">Logga in</h3>
         <h3 (click)="toRegister()">Registrera dig &nbsp;</h3>
     </div>
-    <div *ngIf="user_auth_token && user">
+    <div *ngIf="isLoggedIn">
         <h3 (click)="logout()">Logga ut</h3>
-        <h3 (click)="toProfile()">{{ user.email }}s sida &nbsp;</h3>
+        <h3 (click)="toProfile()" *ngIf="user">Anv-namns sidor &nbsp;</h3>
+    </div>
+    <div class="login-form" *ngIf="loginForm && !isLoggedIn">
+        <h2>Logga in</h2>
+        <form #registerForm="ngForm" (ngSubmit)="login(registerForm)">
+            <input class="form-input" type="email" name="email" placeholder="Epostadress..." ngModel required>
+            <input class="form-input" type="password" name="password" placeholder="Lösenord..." ngModel required>
+            <input class="form-btn" type="submit" value="Logga in">
+            <input class="abort-btn" type="button" (click)="abort()" value="Avbryt">
+        </form>
     </div>
 </div>

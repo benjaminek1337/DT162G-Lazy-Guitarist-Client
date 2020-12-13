@@ -1,0 +1,17 @@
+.left-col{
+    width:25%;
+    float:left;
+}
+
+.right-col{
+    width:75%;
+    float:right;
+}
+
+h4{
+    cursor: pointer;
+}
+
+h4:hover{
+    color: rgb(235, 246, 255);
+}

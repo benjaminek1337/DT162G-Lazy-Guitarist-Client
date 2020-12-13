@@ -5,9 +5,65 @@ h1{
     font-size: xx-large;
     float: left;
 }
+
+h2{
+    margin:0;
+    color: rgb(233, 233, 233);
+}
+
 h3{
     cursor: pointer;
     padding-top:13px;
     margin:0px;
     float:right;
+}
+.login-form{
+    padding:20px;
+    padding-bottom:20px;
+    border-radius: 0.2rem;
+    position: absolute;
+    z-index: 100;
+    background-color: rgba(45, 47, 61, 0.787);
+    -webkit-box-shadow: 5px 5px 10px 0px rgba(0,0,0,0.7);
+    -moz-box-shadow: 5px 5px 10px 0px rgba(0,0,0,0.7);
+    box-shadow: 5px 5px 10px 0px rgba(0,0,0,0.7);
+}
+.form-input{
+    margin-top: 20px;
+    background: #ffffff;
+    padding:5px 10px;
+    color: #333;
+    font-size: 1.2em;
+    border: none;
+    border-radius: 0.2rem;
+    border-bottom: 0.3rem solid transparent;
+    display: block;
+    min-width: 300px;
+}
+
+.form-btn{
+    margin-top: 20px;
+    margin-right: 20px;
+    background: #c0d9f6;
+    padding:5px 10px;
+    color: #1d1d1d;
+    cursor: pointer;
+    font-size: 1.2em;
+    border: none;
+    border-radius: 0.2rem;
+    width: auto;
+    min-width: 100px;
+}
+
+.abort-btn{
+    margin-top: 20px;
+    background: #bdbdbd;
+    padding:5px 10px;
+    color: #1d1d1d;
+    cursor: pointer;
+    font-size: 1.2em;
+    border: none;
+    border-radius: 0.2rem;
+    width: auto;
+    min-width: 100px;
 }

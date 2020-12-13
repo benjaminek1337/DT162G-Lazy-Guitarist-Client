@@ -3,6 +3,7 @@ import { Router } from "@angular/router";
 import { CookieService } from 'ngx-cookie-service';
 import { User } from 'src/app/models/User';
 import { UserService } from "../../services/user.service"
+import { NgForm } from '@angular/forms';
 
 
 @Component({
@@ -12,16 +13,34 @@ import { UserService } from "../../services/user.service"
 })
 export class HeaderComponent implements OnInit {
 
-  constructor(private router:Router, private userservice:UserService, private cookieService:CookieService) { }
-  user_auth_token: string;
+  constructor(
+    private router:Router, 
+    private userservice:UserService, 
+    private cookieService:CookieService
+  ) { }
+
+  isLoggedIn:boolean;
   user:User;
+  mySubscription:any;
+  loginForm: boolean;
+
+  // TODO - Försök att uppdatera headern utan att reloada sidan
 
   ngOnInit(): void {
     if(this.cookieService.check("sid")){
-      this.user_auth_token = this.cookieService.get("sid");
       this.userservice.getUser().subscribe(u => {
         this.user = u;
-      })
+      });
+      this.isLoggedIn = true;
+    }
+    this.mySubscription = this.userservice.loginStatusChange().subscribe(s => {
+      this.isLoggedIn = s;
+    });
+  }
+
+  ngOnDestroy() {
+    if (this.mySubscription) {
+      this.mySubscription.unsubscribe();
     }
   }
 
@@ -32,30 +51,45 @@ export class HeaderComponent implements OnInit {
   }
 
   toLogin(){
-    if(this.user && this.user_auth_token){
-      return this.toProfile();
-    }
-    this.router.navigateByUrl("/", {skipLocationChange:true}).then(() => {
-      this.router.navigate(["/login"]);
-    });
+    this.loginForm = true;
+    // this.router.navigateByUrl("/", {skipLocationChange:true}).then(() => {
+    //   this.router.navigate(["/login"]);
+    // });
   }
 
   toRegister(){
-    if(this.user && this.user_auth_token){
-      return this.toProfile();
-    }
     this.router.navigateByUrl("/", {skipLocationChange:true}).then(() => {
       this.router.navigate(["/register"]);
     });
   }
 
   toProfile(){
-    if(!this.user && !this.user_auth_token){
-      return this.toLogin();
-    }
     this.router.navigateByUrl("/", {skipLocationChange:true}).then(() => {
       this.router.navigate(["/profile"]);
     });
+  }
+
+  login(form:NgForm){
+    this.userservice.loginUser(form.value).subscribe(r => {
+      if(r.status == 200){
+        // window.location.pathname = "/profile";
+        // this.router.navigateByUrl("/", {skipLocationChange:true}).then(() => {
+        //   this.router.navigate(["/profile"]); // Uppdatera headern på nått vis
+        // });
+        this.loginForm = false;
+        this.userservice.getUser().subscribe(u => {
+          this.user = u;
+        })
+      }
+    }, error => {
+      this.isLoggedIn = false;
+      console.log(error);
+      alert(error.error);
+    });
+  }
+
+  abort(){
+    this.loginForm = false;
   }
 
   logout(){
@@ -65,7 +99,12 @@ export class HeaderComponent implements OnInit {
       }
       this.user = null;
       this.cookieService.delete("sid", "/")
-      window.location.pathname = "/index";
+      //this.isLoggedIn = false;
+      if(window.location.pathname.includes("/profile")){
+        this.router.navigateByUrl("/", {skipLocationChange:true}).then(() => {
+          this.router.navigate(["/index"]);
+        });
+      }
     })
   }
 

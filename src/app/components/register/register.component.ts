@@ -18,7 +18,6 @@ export class RegisterComponent implements OnInit {
   ngOnInit(): void {
     if(this.cookieService.check("sid")){
       this.userservice.getUser().subscribe(u => {
-        console.log(u);
         if(u.status != 400){
           this.router.navigateByUrl("/", {skipLocationChange:true}).then(() => {
             this.router.navigate(["/profile"]);
@@ -32,9 +31,15 @@ export class RegisterComponent implements OnInit {
     this.userservice.registerUser(form.value).subscribe(r => {
       if(r.status == 200){
         window.location.pathname = "/profile";
+        // this.router.navigateByUrl("/", {skipLocationChange:true}).then(() => {
+        //   this.router.navigate(["/profile"]); // Uppdatera headern på nått vis
+        // });
       } else {
         console.log("somethuing fukkd")
       }
+    }, error => {
+      console.log(error);
+      alert(error.error)
     });
   }
 

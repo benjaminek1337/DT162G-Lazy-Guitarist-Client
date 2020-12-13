@@ -25,13 +25,17 @@ export class LoginComponent implements OnInit {
     }
   }
 
-  register(form:NgForm){
+  login(form:NgForm){
     this.userservice.loginUser(form.value).subscribe(r => {
       if(r.status == 200){
-        window.location.pathname = "/profile/";
-      } else {
-        console.log("somethuing fukkd")
+        window.location.pathname = "/profile";
+        // this.router.navigateByUrl("/", {skipLocationChange:true}).then(() => {
+        //   this.router.navigate(["/profile"]); // Uppdatera headern på nått vis
+        // });
       }
+    }, error => {
+      console.log(error);
+      alert(error.error)
     });
   }
 
