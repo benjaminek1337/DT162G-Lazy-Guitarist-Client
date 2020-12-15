@@ -1,11 +1,12 @@
 <h1>Mina sidor</h1>
 <hr>
 <div class="left-col">
-    <h4>Sparade låtar</h4>
-    <h4>Profilinställningar</h4>
+    <h4 (click)="toTracks()">Sparade låtar</h4>
+    <h4 (click)="toForm()">Profilinställningar</h4>
 </div>
 <div class="right-col">
-    <p>2 komponenter hit - en för profilinst, en för sparade låtar</p>
+    <app-profile-tracks [user]="user" *ngIf="subroute == 'tracks'"></app-profile-tracks>
+    <app-profile-form [user]="user" *ngIf="subroute == 'form'"></app-profile-form>
 </div>
 <!-- <div *ngIf="user">
     {{ user.email }}

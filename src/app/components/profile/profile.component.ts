@@ -13,6 +13,7 @@ export class ProfileComponent implements OnInit {
 
   constructor(private cookieService:CookieService, private router:Router, private userService:UserService) { }
   user: User;
+  subroute:string;
 
   ngOnInit(): void {
     if(!this.cookieService.check("sid")){
@@ -25,6 +26,15 @@ export class ProfileComponent implements OnInit {
         this.user = u;
       })
     }
+    this.subroute = "form";
+  }
+
+  toForm(){
+    this.subroute = "form";
+  }
+
+  toTracks(){
+    this.subroute = "tracks";
   }
 
 }

@@ -1,0 +1,30 @@
+<div *ngIf="user">
+    <div class="form">
+        <h3>Byt epostadress eller användarnamn</h3>
+        <form #userForm="ngForm" (ngSubmit)="updateUser(userForm)">
+            <p>{{ userErrorMsg }}</p>
+            <label for="email">Epostadress: </label>
+            <input class="form-input" type="email" [(ngModel)]="user.email" name="email" placeholder="Epostadress..." ngModel required>
+            <br>
+            <label for="username">Användarnamn: </label>
+            <input class="form-input" type="text" [(ngModel)]="user.username" name="username" placeholder="Användarnamn..." ngModel required>
+            <input class="form-btn" type="submit" value="Uppdatera">
+        </form>
+    </div>
+    <div class="form">
+        <h3>Byt lösenord</h3>
+        <form #passwordForm="ngForm" (ngSubmit)="updatePassword(passwordForm)">
+            <p>{{ passwordErrorMsg }}</p>
+            <label for="oldPassword">Nuvarande lösenord:</label>
+            <input class="form-input" type="password" name="oldPassword" placeholder="Nuvarande lösenord..." ngModel required autocomplete="new-password" >
+            <br>
+            <label for="newPassword">Nytt lösenord:</label>
+            <input class="form-input" type="password" name="newPassword" placeholder="Nytt lösenord..." ngModel required autocomplete="off" >
+            <br>
+            <label for="repeatPassword">Repetera nytt lösenord:</label>
+            <input class="form-input" type="password" name="repeatPassword"  placeholder="Repetera lösenord..." ngModel required autocomplete="off" >
+            <input class="form-btn" type="submit" value="Byt lösenord">
+        </form>
+    </div>
+</div>
+

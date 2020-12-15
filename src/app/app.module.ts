@@ -13,9 +13,10 @@ import { SongPageComponent } from './components/song-page/song-page.component';
 import { StartPageComponent } from './components/start-page/start-page.component';
 import { HeaderComponent } from './components/header/header.component';
 import { SpotifyNotAuthenticatedComponent } from './components/spotify-not-authenticated/spotify-not-authenticated.component';
-import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { ProfileComponent } from './components/profile/profile.component';
+import { ProfileFormComponent } from './components/profile-form/profile-form.component';
+import { ProfileTracksComponent } from './components/profile-tracks/profile-tracks.component';
 
 @NgModule({
   declarations: [
@@ -27,9 +28,10 @@ import { ProfileComponent } from './components/profile/profile.component';
     StartPageComponent,
     HeaderComponent,
     SpotifyNotAuthenticatedComponent,
-    LoginComponent,
     RegisterComponent,
-    ProfileComponent
+    ProfileComponent,
+    ProfileFormComponent,
+    ProfileTracksComponent
   ],
   imports: [
     BrowserModule,
