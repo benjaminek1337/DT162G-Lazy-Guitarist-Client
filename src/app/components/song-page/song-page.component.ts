@@ -35,7 +35,6 @@ export class SongPageComponent implements OnInit {
     
     this.mySubscription = this.userservice.loginStatusChange().subscribe(s => {
       this.isLoggedIn = s;
-      console.log(this.isLoggedIn);
     });
 
     let id = this.activatedRoute.snapshot.paramMap.get("id");

@@ -34,8 +34,15 @@ export class UserService {
   }
 
   loginUser(form) {
-    this.isLoggedIn.next(!false);
     return this.http.post<any>(this.url + "/login", form, {withCredentials: true});
+  }
+
+  loginFailed(){
+    this.isLoggedIn.next(false);
+  }
+
+  loginSuccess(){
+    this.isLoggedIn.next(true);
   }
 
 }

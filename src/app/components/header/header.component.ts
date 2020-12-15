@@ -23,6 +23,7 @@ export class HeaderComponent implements OnInit {
   user:User;
   mySubscription:any;
   loginForm: boolean;
+  errormessage:string;
 
   // TODO - Försök att uppdatera headern utan att reloada sidan
 
@@ -30,6 +31,8 @@ export class HeaderComponent implements OnInit {
     if(this.cookieService.check("sid")){
       this.userservice.getUser().subscribe(u => {
         this.user = u;
+      }, err => {
+        console.log(err);
       });
       this.isLoggedIn = true;
     }
@@ -52,9 +55,6 @@ export class HeaderComponent implements OnInit {
 
   toLogin(){
     this.loginForm = true;
-    // this.router.navigateByUrl("/", {skipLocationChange:true}).then(() => {
-    //   this.router.navigate(["/login"]);
-    // });
   }
 
   toRegister(){
@@ -71,24 +71,27 @@ export class HeaderComponent implements OnInit {
 
   login(form:NgForm){
     this.userservice.loginUser(form.value).subscribe(r => {
-      if(r.status == 200){
+      this.errormessage = "";
         // window.location.pathname = "/profile";
         // this.router.navigateByUrl("/", {skipLocationChange:true}).then(() => {
         //   this.router.navigate(["/profile"]); // Uppdatera headern på nått vis
         // });
+      this.userservice.getUser().subscribe(u => {
+        this.userservice.loginSuccess();
+        this.user = u;
         this.loginForm = false;
-        this.userservice.getUser().subscribe(u => {
-          this.user = u;
-        })
-      }
+      })
+  
     }, error => {
+      this.userservice.loginFailed();
       this.isLoggedIn = false;
+      this.errormessage = error.error;
       console.log(error);
-      alert(error.error);
     });
   }
 
   abort(){
+    this.errormessage = "";
     this.loginForm = false;
   }
 

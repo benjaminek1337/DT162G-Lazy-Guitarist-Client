@@ -7,10 +7,11 @@
     </div>
     <div *ngIf="isLoggedIn">
         <h3 (click)="logout()">Logga ut</h3>
-        <h3 (click)="toProfile()" *ngIf="user">Anv-namns sidor &nbsp;</h3>
+        <h3 (click)="toProfile()" *ngIf="user">{{ user.username }}s sidor &nbsp;</h3>
     </div>
     <div class="login-form" *ngIf="loginForm && !isLoggedIn">
         <h2>Logga in</h2>
+        <p class="errormsg">{{ errormessage }}</p>
         <form #registerForm="ngForm" (ngSubmit)="login(registerForm)">
             <input class="form-input" type="email" name="email" placeholder="Epostadress..." ngModel required>
             <input class="form-input" type="password" name="password" placeholder="Lösenord..." ngModel required>

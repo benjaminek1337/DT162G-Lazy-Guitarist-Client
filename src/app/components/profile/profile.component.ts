@@ -17,7 +17,7 @@ export class ProfileComponent implements OnInit {
   ngOnInit(): void {
     if(!this.cookieService.check("sid")){
       this.router.navigateByUrl("/", {skipLocationChange:true}).then(() => {
-        this.router.navigate(["/login"]);
+        this.router.navigate(["/register"]);
       });
     }
     else{
