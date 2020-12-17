@@ -2,6 +2,9 @@ import { EventEmitter, Injectable, Output } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
 import { Observable, ReplaySubject, Subject } from 'rxjs';
 import { CookieService } from 'ngx-cookie-service';
+import { DbTrack } from '../models/DbTrack';
+import { DbSavedTrack } from '../models/DbSavedTrack';
+import { DbLikedTrack } from '../models/DbLikedTrack';
 
 @Injectable({
   providedIn: 'root'
@@ -14,9 +17,14 @@ export class UserService {
   //@Output() user_auth_string: EventEmitter<string> = new EventEmitter();
 
   private isLoggedIn: Subject<boolean> = new ReplaySubject<boolean>(1);
+  private username: Subject<string> = new ReplaySubject<string>(1);
 
   loginStatusChange():Observable<boolean> {
     return this.isLoggedIn.asObservable();
+  }
+
+  usernameStatusChange():Observable<string> {
+    return this.username.asObservable();
   }
 
   registerUser(form) {
@@ -43,6 +51,50 @@ export class UserService {
 
   loginSuccess(){
     this.isLoggedIn.next(true);
+  }
+
+  usernameChanged(username:string){
+    this.username.next(username);
+  }
+
+  changePassword(form){
+    return this.http.put(this.url + "/changepassword", form, {withCredentials: true, responseType: "text"});
+  }
+
+  changeCredentials(form){
+    return this.http.put(this.url + "/changecredentials", form, {withCredentials: true, responseType: "text"});
+  }
+
+  saveTrack(body){
+    return this.http.post(this.url + "/savetrack", body,  {withCredentials: true, responseType: "text"});
+  }
+
+  rateTrack(body){
+    return this.http.put(this.url + "/ratetrack", body,  {withCredentials: true, responseType: "text"});
+  }
+
+  setProgression(body){
+    return this.http.put(this.url + "/progression", body,  {withCredentials: true, responseType: "text"});
+  }
+
+  deleteSavedTrack(trackId:string){
+    return this.http.delete(this.url + "/savedtrack/" + trackId,  {withCredentials: true, responseType: "text"});
+  }
+
+  getTrack(trackId:string){
+    return this.http.get<DbTrack>(this.url + "/track=" + trackId);
+  }
+
+  getSavedTrack(trackId:string){
+    return this.http.get<DbSavedTrack>(this.url + "/savedtrack=" + trackId, {withCredentials: true});
+  }
+
+  getLikedTrack(trackId:string){
+    return this.http.get<DbLikedTrack>(this.url + "/likedtrack=" + trackId, {withCredentials: true});
+  }
+
+  getUserTracks():Observable<any[]>{
+    return this.http.get<any[]>(this.url + "/savedtracks", {withCredentials: true});
   }
 
 }

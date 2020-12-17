@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { User } from 'src/app/models/User';
 import { FormControl, NgForm } from "@angular/forms"
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-profile-form',
@@ -9,7 +10,7 @@ import { FormControl, NgForm } from "@angular/forms"
 })
 export class ProfileFormComponent implements OnInit {
 
-  constructor() { }
+  constructor(private userservice:UserService) { }
   @Input() user:User;
   passwordErrorMsg:string;
   userErrorMsg:string;
@@ -18,11 +19,17 @@ export class ProfileFormComponent implements OnInit {
   }
 
   updateUser(form:NgForm){
-    // Om inga tomma fält
     if(form.value.username && form.value.email){
-      // Validera mot db. INGA DUBBLETTER EMAIL
-      this.userErrorMsg = "";
-      return console.log(form.value);
+      this.userservice.changeCredentials(form.value).subscribe(s => {
+        // Kanske emitta ned
+        this.user.email = form.value.email;
+        this.user.username = form.value.username;
+        this.userservice.usernameChanged(form.value.username);
+        this.userErrorMsg = "";
+      }, err => {
+        console.log(err);
+        alert(err.error);
+      })
     } else 
       return this.userErrorMsg = "Fyll i fälten"
   }
@@ -34,7 +41,14 @@ export class ProfileFormComponent implements OnInit {
       return this.passwordErrorMsg = "Nya lösenorden stämmer ej överens";
     }
     // Byt lösenord
-    console.log(form.value);
+    this.userservice.changePassword(form.value).subscribe(s => {
+      alert("Lösenord bytt");
+      form.resetForm();
+    }, err => {
+      if(err.error.includes("Nuvarande lösenord stämmer ej"))
+        this.passwordErrorMsg = err.error;
+      console.log(err);
+    })
     return this.passwordErrorMsg = "";
   }
 

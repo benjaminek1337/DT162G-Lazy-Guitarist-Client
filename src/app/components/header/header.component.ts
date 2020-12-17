@@ -21,7 +21,8 @@ export class HeaderComponent implements OnInit {
 
   isLoggedIn:boolean;
   user:User;
-  mySubscription:any;
+  myLoginSubscription:any;
+  myUsernameSubscription:any;
   loginForm: boolean;
   errormessage:string;
 
@@ -36,14 +37,17 @@ export class HeaderComponent implements OnInit {
       });
       this.isLoggedIn = true;
     }
-    this.mySubscription = this.userservice.loginStatusChange().subscribe(s => {
+    this.myLoginSubscription = this.userservice.loginStatusChange().subscribe(s => {
       this.isLoggedIn = s;
+    });
+    this.myUsernameSubscription = this.userservice.usernameStatusChange().subscribe(s => {
+      this.user.username = s;
     });
   }
 
   ngOnDestroy() {
-    if (this.mySubscription) {
-      this.mySubscription.unsubscribe();
+    if (this.myLoginSubscription) {
+      this.myLoginSubscription.unsubscribe();
     }
   }
 

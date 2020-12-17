@@ -4,6 +4,9 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { SpotifyService } from "../../services/spotify.service";
 import { CookieService } from 'ngx-cookie-service';
 import { UserService } from 'src/app/services/user.service';
+import { DbTrack } from 'src/app/models/DbTrack';
+import { DbSavedTrack } from 'src/app/models/DbSavedTrack';
+import { DbLikedTrack } from 'src/app/models/DbLikedTrack';
 
 @Component({
   selector: 'app-song-page',
@@ -26,6 +29,13 @@ export class SongPageComponent implements OnInit {
   authenticationRefreshInterval:any;
   mySubscription:any;
   isLoggedIn: boolean;
+
+  dbTrack:DbTrack;
+  dbSavedTrack:DbSavedTrack;
+
+  isTrackSaved:boolean;
+  likeBtnDisabled:boolean;
+  dislikeBtnDisabled:boolean;
   
   // TODO - försöka passa in songdata från search genom routes. ActivatedRoute = manage states. FUGG svårare än tänkt. spara till sen
   // TODO - Försöka få till ETT försök till auteneicering automatiskt
@@ -37,8 +47,19 @@ export class SongPageComponent implements OnInit {
       this.isLoggedIn = s;
     });
 
+    this.getSpotifyTrack();
+    
+  }
+
+  ngOnDestroy() {
+    if (this.mySubscription) {
+      this.mySubscription.unsubscribe();
+    }
+  }
+
+  async getSpotifyTrack(){
     let id = this.activatedRoute.snapshot.paramMap.get("id");
-    this.spotifyService.getTrackByUri(id).subscribe(t => {
+    await this.spotifyService.getTrackByUri(id).subscribe(t => {
       this.track = {
         id: t.id,
         title: t.name,
@@ -48,14 +69,44 @@ export class SongPageComponent implements OnInit {
         duration: t.duration_ms
       }
       this.cutOffUnwantedSongTitleParts();
+      this.getTrackdataFromDb();
     })
     this.authenticate();
   }
 
-  ngOnDestroy() {
-    if (this.mySubscription) {
-      this.mySubscription.unsubscribe();
-    }
+  async getTrackdataFromDb(){
+    this.userservice.getTrack(this.track.id).subscribe(t => {
+      if(t)
+        this.dbTrack = t;
+    }, err => {
+      console.log("Spår finns ej i db");
+    });
+    this.userservice.getSavedTrack(this.track.id).subscribe(t => {
+      if(t){
+        this.dbSavedTrack = t;
+        this.isTrackSaved = t.saved;
+        this.dislikeBtnDisabled = t.disliked;
+        this.likeBtnDisabled = t.liked;
+      } else {
+        this.isTrackSaved = false;
+        this.dislikeBtnDisabled = false;
+        this.likeBtnDisabled = false;
+      }
+    }, err => {
+      console.log("Spår finns ej i db");
+    });
+  }
+
+  isLikeBtnDisabled(){
+    if(!this.dbSavedTrack)
+      return this.likeBtnDisabled = false;
+    return this.likeBtnDisabled =  this.dbSavedTrack.liked;
+  }
+
+  isDislikeBtnDisabled(){
+    if(!this.dbSavedTrack)
+      return this.dislikeBtnDisabled = false;
+      return this.dislikeBtnDisabled =  this.dbSavedTrack.disliked;
   }
 
   getAllArtists(t:any):string{
@@ -108,6 +159,55 @@ export class SongPageComponent implements OnInit {
       if(u.product == "premium")
         this.premiumUser = true;
     });
+  }
+
+  saveTrack(){
+    const track = { 
+      trackId: this.track.id,
+      track: this.track.title,
+      artist: this.track.artist,
+      album: this.track.album
+    };
+    this.userservice.saveTrack(track).subscribe(t => {
+      console.log(t);
+      this.isTrackSaved = true;
+    }, err => {
+      console.log(err);
+    })
+  }
+
+  setProgression(progress:string){
+    const body = {
+      trackId: this.track.id,
+      progress: progress
+    };
+    this.userservice.setProgression(body).subscribe(s => {
+      console.log(s);
+    }, err => {
+      console.log(err);
+    })
+  }
+
+  rate(liked:string){
+    const body = { 
+      trackId: this.track.id,
+      liked: (liked == "liked") ? true : false,
+      disliked: (liked == "liked") ? false : true,
+      track: this.track.title,
+      artist: this.track.artist,
+      album: this.track.album
+    }
+    this.userservice.rateTrack(body).subscribe(s => {
+      this.dislikeBtnDisabled = (s == "false") ? true : false;
+      this.likeBtnDisabled = (s == "true") ? true : false;
+      this.userservice.getTrack(this.track.id).subscribe(t => {
+        this.dbTrack = t;
+      }, err => {
+        console.log("Något hände vid rating")
+      })
+    }, err => {
+      console.log(err);
+    })
   }
 
   ultimateGuitarSearch():void{

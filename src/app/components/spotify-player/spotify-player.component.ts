@@ -87,7 +87,7 @@ export class SpotifyPlayerComponent implements OnInit {
       setTimeout(() => {
         player.connect();
         this.playerArea = "player-area";
-      }, 200)
+      }, 250)
     })
     .catch(res => console.log("Sumtin fuckd " + res));
     this.playBtn = "paused";

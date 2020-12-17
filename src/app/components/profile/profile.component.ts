@@ -26,7 +26,7 @@ export class ProfileComponent implements OnInit {
         this.user = u;
       })
     }
-    this.subroute = "form";
+    this.subroute = "tracks";
   }
 
   toForm(){
