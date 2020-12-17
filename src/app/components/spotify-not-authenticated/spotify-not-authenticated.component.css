@@ -3,8 +3,13 @@
     text-align: center;
 }
 
+h5{
+    margin-top:5px;
+}
+
 .auth-btn {
     margin:auto;
+    margin-bottom:10px;
     background: #0fc71e;
     padding:10px;
     color: #1d1d1d;

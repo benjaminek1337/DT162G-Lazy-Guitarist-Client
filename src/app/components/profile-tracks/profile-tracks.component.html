@@ -1,10 +1,15 @@
 <h1>Sparade låtar</h1>
 <div *ngIf="anyTracks">
     <div class="saved-track" *ngFor="let track of dbTracks">
-        <h4 (click)="toTrack(track.trackId)">{{ track.track }}</h4>
-        <p>{{ track.artist }}</p>
-        <p class="album">{{ track.album }}</p>
-        <span (click)="removeTrack(track.trackId)">Ta bort låt</span>
+        <div class="track-info" (click)="toTrack(track.trackId)">
+            <h4>{{ track.track }}</h4>
+            <p>{{ track.artist }}</p>
+            <p class="album">{{ track.album }}</p>
+        </div>
+        <div class="filler"></div>
+        <div class="track-options">
+            <p (click)="removeTrack(track.trackId)">Ta bort låt</p>
+        </div>
     </div>
 </div>
-<p *ngIf="!anyTracks">Du har inte sparat några spår än...</p>
+<p *ngIf="!anyTracks">Du har inte sparat några låtar än...</p>

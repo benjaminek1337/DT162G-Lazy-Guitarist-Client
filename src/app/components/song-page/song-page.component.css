@@ -18,7 +18,7 @@ img{
     width:255px;
     padding:10px;
     margin-top:5px;
-    border-radius: 5px;
+    border-radius: 0.2rem;
     background-color: rgba(209, 209, 209, 0.068);
 }
 
@@ -34,6 +34,8 @@ img{
 
 .player-area{
     width:275px;
+    background-color: rgba(209, 209, 209, 0.068);
+    border-radius: 0.2rem;
 }
 
 .ug-search{
@@ -45,18 +47,4 @@ img{
     font-weight: bold;
 }
 
-.form-btn{
-    background: #8fe096;
-    padding:5px 45px 5px 30px;
-    color: #1d1d1d;
-    cursor: pointer;
-    font-size: 1.2em;
-    border: 0;
-    transition: all 0.5s;
-    border-radius: 10px;
-    width: auto;
-    min-width: 100px;
-    -webkit-box-shadow: 5px 5px 10px 0px rgba(0,0,0,0.7);
-    -moz-box-shadow: 5px 5px 10px 0px rgba(0,0,0,0.7);
-    box-shadow: 5px 5px 10px 0px rgba(0,0,0,0.7);
-}
+

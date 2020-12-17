@@ -1,11 +1,30 @@
 .saved-track{
-    cursor: pointer;
     background-color: rgba(240, 248, 255, 0.075);
     margin-bottom:10px;
     padding:5px 10px;
     border: none;
     border-radius: 0.2rem;
     border-bottom: 0.3rem solid transparent;
+    height:55px;
+}
+
+.track-info{
+    cursor: pointer;
+    width:50%;
+    margin: 0;
+    float: left;
+}
+
+
+.track-options{
+    width:50%;
+    margin: 0;
+    float:right;
+    text-align: right;
+}
+
+.track-options p{
+    color: red;
 }
 
 p{

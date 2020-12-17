@@ -1,13 +1,11 @@
 .player-area{
-    background-color: rgba(209, 209, 209, 0.068);
     padding:10px;
-    border-radius: 5px;
+    border-radius: 0.2rem;
 }
 
 .player-area-disabled{
-    background-color: rgba(209, 209, 209, 0.068);
     padding:10px;
-    border-radius: 5px;
+    border-radius: 0.2rem;
     pointer-events: none;
     cursor: default;
 }

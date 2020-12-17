@@ -1,0 +1,20 @@
+<button *ngIf="isTrackSaved == 'no'" class="form-btn" (click)="saveTrack()">+ Spara låt</button>
+<select (change)="setProgression($event.target.value)"
+[value]="progress"
+ *ngIf="isTrackSaved == 'yes'" 
+ name="progress" 
+ class="progress-options">
+    <option value="Vill lära mig">Vill lära mig</option>
+    <option value="På god väg">På god väg</option>
+    <option value="Kan den rätt bra">Kan den rätt bra</option>
+</select>
+<br>
+<p>Är innehållet på sidan vettigt?</p>
+<button class="likebtn" [disabled]="likeBtnDisabled" (click)="rate('liked')">
+    Ja:
+    <span>{{ likesValue() }}</span>
+</button>
+<button class="dislikebtn" [disabled]="dislikeBtnDisabled" (click)="rate('disliked')">
+    Nej:
+    <span>{{ dislikesValue() }}</span>
+</button>

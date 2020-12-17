@@ -13,8 +13,8 @@
         <h2>Logga in</h2>
         <p class="errormsg">{{ errormessage }}</p>
         <form #registerForm="ngForm" (ngSubmit)="login(registerForm)">
-            <input class="form-input" type="email" name="email" placeholder="Epostadress..." ngModel required>
-            <input class="form-input" type="password" name="password" placeholder="Lösenord..." ngModel required>
+            <input class="form-input" type="email" name="email" placeholder="Epostadress..." ngModel required autocomplete="off">
+            <input class="form-input" type="password" name="password" placeholder="Lösenord..." ngModel required autocomplete="off">
             <input class="form-btn" type="submit" value="Logga in">
             <input class="abort-btn" type="button" (click)="abort()" value="Avbryt">
         </form>

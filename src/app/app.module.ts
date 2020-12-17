@@ -17,6 +17,7 @@ import { RegisterComponent } from './components/register/register.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { ProfileFormComponent } from './components/profile-form/profile-form.component';
 import { ProfileTracksComponent } from './components/profile-tracks/profile-tracks.component';
+import { SongPageUserSettingsComponent } from './components/song-page-user-settings/song-page-user-settings.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { ProfileTracksComponent } from './components/profile-tracks/profile-trac
     RegisterComponent,
     ProfileComponent,
     ProfileFormComponent,
-    ProfileTracksComponent
+    ProfileTracksComponent,
+    SongPageUserSettingsComponent
   ],
   imports: [
     BrowserModule,

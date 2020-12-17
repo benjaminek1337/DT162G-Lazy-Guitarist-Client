@@ -1,29 +1,15 @@
 <div *ngIf="track" class="wrapper">
     
     <div class="left-col">
+        <img src="{{ track.albumcover }}" alt="">
         <div class="player-area">
-            <img src="{{ track.albumcover }}" alt="">
             <app-spotify-not-authenticated *ngIf="!auth_token"></app-spotify-not-authenticated>
             <h5 *ngIf="auth_token && premiumUser === false">Du har tyvärr inte ett Spotify Premium-konto. Rensa cookies och försök igen om du vill.</h5>
             <app-spotify-player *ngIf="auth_token && premiumUser === true" [track]="track" [auth_token]="auth_token"></app-spotify-player>
         </div>
 
         <div *ngIf="isLoggedIn" class="logged-in-stuff">
-            <button *ngIf="!isTrackSaved" class="form-btn" (click)="saveTrack()">+ Spara låt</button>
-            <select (change)="setProgression($event.target.value)" *ngIf="isTrackSaved" name="progress">
-                <option value="Vill lära mig">Vill lära mig</option>
-                <option value="På god väg">På god väg</option>
-                <option value="Kan den rätt bra">Kan den rätt bra</option>
-            </select>
-            <br>
-            <button [disabled]="likeBtnDisabled" (click)="rate('liked')">
-                Like 
-                <span *ngIf="dbTrack">{{ dbTrack.likes }}</span>
-            </button>
-            <button [disabled]="dislikeBtnDisabled" (click)="rate('disliked')">
-                Dislike
-                <span *ngIf="dbTrack">{{ dbTrack.dislikes }}</span>
-            </button>
+            <app-song-page-user-settings [track]="track"></app-song-page-user-settings>
         </div>
     </div>
     

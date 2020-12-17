@@ -9,3 +9,7 @@ body{
     width:960px;
     margin:auto;
 }
+
+input:focus, textarea:focus, select:focus, button:focus{
+    outline: none;
+}
