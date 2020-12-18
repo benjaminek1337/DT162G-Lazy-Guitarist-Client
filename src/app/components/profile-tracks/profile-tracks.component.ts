@@ -70,6 +70,9 @@ export class ProfileTracksComponent implements OnInit {
     this.userservice.deleteSavedTrack(trackId).subscribe(t => {
       console.log(t);
       this.dbTracks = [];
+      this.noProgress = [];
+      this.someProgress = [];
+      this.fullProgress = []
       this.getTracks();
     }, err => {
 
