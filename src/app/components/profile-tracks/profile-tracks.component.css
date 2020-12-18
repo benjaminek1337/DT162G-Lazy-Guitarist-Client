@@ -25,6 +25,7 @@
 
 .track-options p{
     color: red;
+    cursor: pointer;
 }
 
 p{

@@ -1,6 +1,35 @@
 <h1>Sparade låtar</h1>
-<div *ngIf="anyTracks">
-    <div class="saved-track" *ngFor="let track of dbTracks">
+<div *ngIf="noProgress.length > 0">
+    <h3>Låtar jag inte kan så bra</h3>
+    <div class="saved-track" *ngFor="let track of noProgress">
+        <div class="track-info" (click)="toTrack(track.trackId)">
+            <h4>{{ track.track }}</h4>
+            <p>{{ track.artist }}</p>
+            <p class="album">{{ track.album }}</p>
+        </div>
+        <div class="filler"></div>
+        <div class="track-options">
+            <p (click)="removeTrack(track.trackId)">Ta bort låt</p>
+        </div>
+    </div>
+</div>
+<div *ngIf="someProgress.length > 0">
+    <h3>Låtar jag lärt mig hyfsat</h3>
+    <div class="saved-track" *ngFor="let track of someProgress">
+        <div class="track-info" (click)="toTrack(track.trackId)">
+            <h4>{{ track.track }}</h4>
+            <p>{{ track.artist }}</p>
+            <p class="album">{{ track.album }}</p>
+        </div>
+        <div class="filler"></div>
+        <div class="track-options">
+            <p (click)="removeTrack(track.trackId)">Ta bort låt</p>
+        </div>
+    </div>
+</div>
+<div *ngIf="fullProgress.length > 0">
+    <h3>Låtar jag är rätt säker på</h3>
+    <div class="saved-track" *ngFor="let track of fullProgress">
         <div class="track-info" (click)="toTrack(track.trackId)">
             <h4>{{ track.track }}</h4>
             <p>{{ track.artist }}</p>

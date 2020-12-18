@@ -80,11 +80,11 @@ export class HeaderComponent implements OnInit {
         // this.router.navigateByUrl("/", {skipLocationChange:true}).then(() => {
         //   this.router.navigate(["/profile"]); // Uppdatera headern på nått vis
         // });
-      this.userservice.getUser().subscribe(u => {
+      //this.userservice.getUser().subscribe(u => {
         this.userservice.loginSuccess();
-        this.user = u;
+        this.user = r;
         this.loginForm = false;
-      })
+      //})
   
     }, error => {
       this.userservice.loginFailed();

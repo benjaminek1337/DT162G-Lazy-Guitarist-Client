@@ -16,6 +16,10 @@ export class ProfileTracksComponent implements OnInit {
   dbTracks: DbListedTrack[] = [];
   anyTracks: boolean;
 
+  noProgress:DbListedTrack[] = [];
+  someProgress:DbListedTrack[] = [];
+  fullProgress:DbListedTrack[] = []
+
   ngOnInit(): void {
     this.anyTracks = true;
     this.getTracks();
@@ -35,10 +39,25 @@ export class ProfileTracksComponent implements OnInit {
         this.dbTracks.push(dbTrack);
         this.anyTracks = true;
       }
+      this.sortTracks(this.dbTracks);
     }, err => {
       console.log(err.error.message);
       this.anyTracks = false;
     })
+  }
+
+  sortTracks(dbTracks:DbListedTrack[]){
+    console.log(dbTracks)
+    for (let i = 0; i < dbTracks.length; i++) {
+      const track = dbTracks[i];
+      if(track.progress.includes("Vill lära mig")){
+        this.noProgress.push(track);
+      } else if(track.progress.includes("På god väg")){
+        this.someProgress.push(track);
+      } else {
+        this.fullProgress.push(track);
+      }
+    }
   }
 
   toTrack(trackId:string){

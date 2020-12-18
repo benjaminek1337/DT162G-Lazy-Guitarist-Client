@@ -5,6 +5,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { DbTrack } from '../models/DbTrack';
 import { DbSavedTrack } from '../models/DbSavedTrack';
 import { DbLikedTrack } from '../models/DbLikedTrack';
+import { environment } from "../../environments/environment"
 
 @Injectable({
   providedIn: 'root'
@@ -12,9 +13,7 @@ import { DbLikedTrack } from '../models/DbLikedTrack';
 export class UserService {
 
   constructor(private http:HttpClient, private cookieService:CookieService) { }
-  
-  url:string = "http://localhost:3000/api/user"
-  //@Output() user_auth_string: EventEmitter<string> = new EventEmitter();
+  url:string = environment.userApiUrl;
 
   private isLoggedIn: Subject<boolean> = new ReplaySubject<boolean>(1);
   private username: Subject<string> = new ReplaySubject<string>(1);
