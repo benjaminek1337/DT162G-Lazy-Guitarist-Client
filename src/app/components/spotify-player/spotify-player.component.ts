@@ -89,7 +89,7 @@ export class SpotifyPlayerComponent implements OnInit {
         this.playerArea = "player-area";
       }, 250)
     })
-    .catch(res => console.log("Sumtin fuckd " + res));
+    .catch(res => console.log("Error: " + res));
     this.playBtn = "paused";
     this.songLoaded = false;
     this.durationSlider = this.track.duration;
@@ -169,7 +169,7 @@ export class SpotifyPlayerComponent implements OnInit {
   reverseForMs(time){
     player.getCurrentState().then(state => {
       if(!state){
-        return console.log("No song is loaded, fucko");
+        return console.log("No song is loaded");
       } 
       if(state.position > time)
         player.seek(state.position - time);
@@ -201,7 +201,7 @@ export class SpotifyPlayerComponent implements OnInit {
       player.seek(value)
     } catch (error) {
       this.durationSlider = 0;
-      console.log("no song is loaded, fucko")
+      console.log("no song is loaded")
     }
   }
 
