@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { HttpClientModule } from "@angular/common/http";
 import { FormsModule } from "@angular/forms";
 import { CookieService } from "ngx-cookie-service";
+import { YouTubePlayerModule } from '@angular/youtube-player';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -18,6 +19,7 @@ import { ProfileComponent } from './components/profile/profile.component';
 import { ProfileFormComponent } from './components/profile-form/profile-form.component';
 import { ProfileTracksComponent } from './components/profile-tracks/profile-tracks.component';
 import { SongPageUserSettingsComponent } from './components/song-page-user-settings/song-page-user-settings.component';
+import { SongPageYoutubePlayerComponent } from './components/song-page-youtube-player/song-page-youtube-player.component';
 
 @NgModule({
   declarations: [
@@ -33,13 +35,15 @@ import { SongPageUserSettingsComponent } from './components/song-page-user-setti
     ProfileComponent,
     ProfileFormComponent,
     ProfileTracksComponent,
-    SongPageUserSettingsComponent
+    SongPageUserSettingsComponent,
+    SongPageYoutubePlayerComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    YouTubePlayerModule
   ],
   providers: [CookieService],
   bootstrap: [AppComponent]

@@ -17,7 +17,7 @@
         <h1>{{ track.title }}</h1>
         <h2>{{ track.artist }}</h2>
         <hr>
-        <p>Youtubegrejs hit</p>
+        <app-song-page-youtube-player [track]="track"></app-song-page-youtube-player>
         <div class="external-resources">
             <p class="ug-search" (click)="ultimateGuitarSearch();">Sök efter <span class="ug-title">{{ track.title }}</span> på Ultimate Guitar</p>
         </div>

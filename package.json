@@ -19,6 +19,7 @@
     "@angular/platform-browser": "~11.0.1",
     "@angular/platform-browser-dynamic": "~11.0.1",
     "@angular/router": "~11.0.1",
+    "@angular/youtube-player": "^11.0.3",
     "@types/scriptjs": "^0.0.2",
     "@types/spotify-web-playback-sdk": "^0.1.7",
     "ngx-cookie-service": "^11.0.2",

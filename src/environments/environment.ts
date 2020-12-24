@@ -5,7 +5,8 @@
 export const environment = {
   production: false,
   spotifyApiUrl: "http://localhost:3000/api/spotify/",
-  userApiUrl: "http://localhost:3000/api/user"
+  userApiUrl: "http://localhost:3000/api/user",
+  youtubeApiUrl: "http://localhost:3000/api/youtube"
 };
 
 /*

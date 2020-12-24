@@ -1,0 +1,4 @@
+<youtube-player videoId="{{ videoId }}"></youtube-player>
+<ul *ngFor="let video of videoList">
+    <li (click)="changeVideo(video.id.videoId)">{{ video.snippet.title }}</li>
+</ul>
