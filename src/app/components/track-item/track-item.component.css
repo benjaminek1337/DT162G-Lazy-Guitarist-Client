@@ -9,7 +9,8 @@
     border-radius: 0.2rem;
     background-color: rgb(255, 255, 255);
     border: none;
-    width: 90%;
+    width: 100%;
+    margin-left:2.5%;
     display: block;
     border-bottom: 0.3rem solid transparent;
     transition: all 0.3s;

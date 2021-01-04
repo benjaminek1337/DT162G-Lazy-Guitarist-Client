@@ -14,12 +14,18 @@ export class SongPageYoutubePlayerComponent implements OnInit {
   @Input() track:Track;
   videoId:String;
   videoList:any[] = []
+  videoListShowing:boolean = false;
 
   ngOnInit(): void {
     this.getVideoList();
     const tag = document.createElement('script');
     tag.src = 'https://www.youtube.com/iframe_api';
     document.body.appendChild(tag);
+    console.log(this.videoList)
+  }
+
+  displayVideoList(display:boolean){
+    this.videoListShowing = display;
   }
 
   getVideoList(){
@@ -29,8 +35,7 @@ export class SongPageYoutubePlayerComponent implements OnInit {
         const element = r[i];
         this.videoList.push(element);
       }
-      this.videoId = r[1].id.videoId;
-      console.log(this.videoList)
+      this.videoId = r[0].id.videoId;
     }, err => {
       console.log(err)
     })

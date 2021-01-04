@@ -1,10 +1,12 @@
 h1{
+    font-size: large;
     margin:0;
+    text-transform: capitalize;
 }
 
 h2{
     font-style: italic;
-    font-size: large;
+    font-size: medium;
 }
 
 img{
@@ -23,13 +25,14 @@ img{
 }
 
 .left-col{
+    margin-top: 25px;
     float:left;
-    width: 33%;
+    width: 30%;
 }
 
 .right-col{
     float:right;
-    width:67%;
+    width:70%;
 }
 
 .player-area{
@@ -46,5 +49,4 @@ img{
     font-style: italic;
     font-weight: bold;
 }
-
 

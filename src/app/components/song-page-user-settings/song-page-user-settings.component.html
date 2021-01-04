@@ -1,4 +1,6 @@
-<button *ngIf="isTrackSaved == 'no'" class="form-btn" (click)="saveTrack()">+ Spara låt</button>
+<h5 *ngIf="isTrackSaved == 'no'">Vill du lära dig spela låten?</h5>
+<h5 *ngIf="isTrackSaved == 'yes'">Hur bra kan du låten?</h5>
+<button *ngIf="isTrackSaved == 'no'" class="form-btn" (click)="saveTrack()">Klart jag vill!</button>
 <select (change)="setProgression($event.target.value)"
 [value]="progress"
  *ngIf="isTrackSaved == 'yes'" 
@@ -9,12 +11,15 @@
     <option value="Kan den rätt bra">Kan den rätt bra</option>
 </select>
 <br>
-<p>Är innehållet på sidan vettigt?</p>
-<button class="likebtn" [disabled]="likeBtnDisabled" (click)="rate('liked')">
-    Ja:
-    <span>{{ likesValue() }}</span>
-</button>
-<button class="dislikebtn" [disabled]="dislikeBtnDisabled" (click)="rate('disliked')">
-    Nej:
-    <span>{{ dislikesValue() }}</span>
-</button>
+<br>
+<div class="rate-section" *ngIf="isTrackSaved == 'yes'">
+    <h5>Hjälper sidans innehåll dig att lära dig spela låten?</h5>
+    <button class="likebtn" [disabled]="likeBtnDisabled" (click)="rate('liked')">
+        Ja:
+        <span>{{ likesValue() }}</span>
+    </button>
+    <button class="dislikebtn" [disabled]="dislikeBtnDisabled" (click)="rate('disliked')">
+        Nej:
+        <span>{{ dislikesValue() }}</span>
+    </button>
+</div>

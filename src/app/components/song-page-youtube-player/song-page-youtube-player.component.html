@@ -1,4 +1,15 @@
 <youtube-player videoId="{{ videoId }}"></youtube-player>
-<ul *ngFor="let video of videoList">
-    <li (click)="changeVideo(video.id.videoId)">{{ video.snippet.title }}</li>
-</ul>
+<h5 class="videos-btn" *ngIf="!videoListShowing" (click)="displayVideoList(true)">+ Visa fler videor</h5>
+<h5 class="videos-btn" *ngIf="videoListShowing" (click)="displayVideoList(false)">- Dölj videor</h5>
+<div class="video-list" *ngIf="videoListShowing">
+    <ul *ngFor="let video of videoList">
+        <li (click)="changeVideo(video.id.videoId)">
+            <div class="text-container">
+                <span [innerHTML]="video.snippet.title"></span>
+            </div>
+            <div class="img-container">
+                <img src="{{ video.snippet.thumbnails.default.url }}" alt="">
+            </div>
+        </li>
+    </ul>
+</div>

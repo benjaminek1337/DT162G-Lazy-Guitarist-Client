@@ -78,12 +78,23 @@ export class SongPageComponent implements OnInit {
   }
 
   cutOffUnwantedSongTitleParts():void{
-    const splitTitle = this.track.title.split("-");
-    const naughtyWords = ["remastered", "remaster"]
-    this.track.title = "";
-    for (let i = 0; i < splitTitle.length; i++) {
-      if(!this.contains(splitTitle[i].toLocaleLowerCase(), naughtyWords)){
-        this.track.title += splitTitle[i];
+    const naughtyWords = ["(remastered)", "(remaster)", "remastered", "remaster",]
+    if(this.contains(this.track.title.toLocaleLowerCase(), naughtyWords)){
+      const splitTitle = this.track.title.split("-");
+      if(splitTitle.length > 1){
+        this.track.title = "";
+        for (let i = 0; i < splitTitle.length; i++) {
+          if(!this.contains(splitTitle[i].toLocaleLowerCase(), naughtyWords)){
+            this.track.title += splitTitle[i];
+          }
+        }
+      } else {
+        for (let i = 0; i < naughtyWords.length; i++) {
+          const naughtyWord = naughtyWords[i];
+          if(this.track.title.toLocaleLowerCase().includes(naughtyWord)){
+            this.track.title = this.track.title.toLocaleLowerCase().replace(naughtyWord, "");
+          }
+        }
       }
     }
   }

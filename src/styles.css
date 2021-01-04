@@ -6,10 +6,30 @@ html{
 body{
     /* font-family: Arial, Helvetica, sans-serif; */
     font-family: 'Roboto', sans-serif;
-    width:960px;
+    width:1024px;
     margin:auto;
 }
 
 input:focus, textarea:focus, select:focus, button:focus{
     outline: none;
 }
+
+/* width */
+::-webkit-scrollbar {
+    width: 3px;
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: #88888862;
+  }
+  
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #888;
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }

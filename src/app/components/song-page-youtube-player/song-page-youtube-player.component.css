@@ -1,0 +1,39 @@
+.video-list{
+    height: 250px;
+    overflow-y:auto;
+    cursor: pointer;
+
+}
+
+h5 {
+    -webkit-user-select: none;
+    cursor: pointer;
+}
+
+ul{
+    list-style-type: none;
+    margin:0;
+}
+
+li{
+    background-color: rgba(65, 112, 153, 0.157);
+    padding:5px;
+    margin-bottom: 5px;
+}
+
+.img-container{
+    width: 15%;
+}
+
+.text-container{
+    width:85%;
+    float:right;
+}
+
+span{
+    font-size: small;
+}
+
+img {
+    height:40px;
+}
