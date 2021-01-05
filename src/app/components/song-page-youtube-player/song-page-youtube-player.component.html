@@ -1,4 +1,7 @@
-<youtube-player videoId="{{ videoId }}"></youtube-player>
+<youtube-player 
+videoId="{{ videoId }}"
+[height]="403" 
+[width]="717"></youtube-player>
 <h5 class="videos-btn" *ngIf="!videoListShowing" (click)="displayVideoList(true)">+ Visa fler videor</h5>
 <h5 class="videos-btn" *ngIf="videoListShowing" (click)="displayVideoList(false)">- Dölj videor</h5>
 <div class="video-list" *ngIf="videoListShowing">

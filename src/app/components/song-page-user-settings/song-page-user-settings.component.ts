@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { DbLikedTrack } from 'src/app/models/DbLikedTrack';
 import { DbSavedTrack } from 'src/app/models/DbSavedTrack';
 import { DbTrack } from 'src/app/models/DbTrack';
 import { Track } from 'src/app/models/Track';
@@ -17,6 +18,7 @@ export class SongPageUserSettingsComponent implements OnInit {
 
   dbTrack:DbTrack;
   dbSavedTrack:DbSavedTrack;
+  dbLikedTrack:DbLikedTrack;
 
   isTrackSaved:string;
   likeBtnDisabled:boolean;
@@ -28,17 +30,23 @@ export class SongPageUserSettingsComponent implements OnInit {
   }
 
   async getTrackdataFromDb(){
+    this.userservice.getLikedTrack(this.track.id).subscribe(t => {
+      if(t){
+        this.dbLikedTrack = t;
+        this.dislikeBtnDisabled = t.disliked;
+        this.likeBtnDisabled = t.liked;
+      } else {
+        this.dislikeBtnDisabled = false;
+        this.likeBtnDisabled = false;
+      }
+    })
     this.userservice.getSavedTrack(this.track.id).subscribe(t => {
       if(t){
         this.dbSavedTrack = t;
         this.isTrackSaved = "yes";
-        this.dislikeBtnDisabled = t.disliked;
-        this.likeBtnDisabled = t.liked;
         this.progress = t.progress;
       } else {
         this.isTrackSaved = "no";
-        this.dislikeBtnDisabled = false;
-        this.likeBtnDisabled = false;
       }
     }, err => {
       console.log("Spår finns ej i db");
@@ -54,13 +62,13 @@ export class SongPageUserSettingsComponent implements OnInit {
   isLikeBtnDisabled(){
     if(!this.dbSavedTrack)
       return this.likeBtnDisabled = false;
-    return this.likeBtnDisabled =  this.dbSavedTrack.liked;
+    return this.likeBtnDisabled =  this.dbLikedTrack.liked;
   }
 
   isDislikeBtnDisabled(){
     if(!this.dbSavedTrack)
       return this.dislikeBtnDisabled = false;
-      return this.dislikeBtnDisabled =  this.dbSavedTrack.disliked;
+      return this.dislikeBtnDisabled =  this.dbLikedTrack.disliked;
   }
 
   likesValue(){

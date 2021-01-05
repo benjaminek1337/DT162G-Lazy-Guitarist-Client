@@ -12,7 +12,10 @@ import { CookieService } from 'ngx-cookie-service';
 })
 export class RegisterComponent implements OnInit {
 
-  constructor(private userservice:UserService, private router:Router, private cookieService:CookieService) { }
+  constructor(
+    private userservice:UserService, 
+    private router:Router, 
+    private cookieService:CookieService) { }
   user_auth_token:string;
 
   ngOnInit(): void {
@@ -24,7 +27,7 @@ export class RegisterComponent implements OnInit {
           });
         }
       })
-    }
+    }    
   }
 
   register(form:NgForm){

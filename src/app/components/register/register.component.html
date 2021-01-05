@@ -1,4 +1,4 @@
-<div class="form">
+<div class="form" *ngIf="!isLoggedIn">
     <h1>Registrera dig</h1>
     <form #registerForm="ngForm" (ngSubmit)="register(registerForm)">
         <input class="form-input" type="email" name="email" placeholder="Epostadress..." ngModel required autocomplete="off">
@@ -7,3 +7,4 @@
         <input class="form-btn" type="submit" value="Registrera">
     </form>
 </div>
+<h2 *ngIf="isLoggedIn">Har du loggat in kan du inte registrera dig igen. Duh!</h2>

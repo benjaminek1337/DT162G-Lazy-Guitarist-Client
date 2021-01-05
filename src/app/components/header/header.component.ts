@@ -21,8 +21,8 @@ export class HeaderComponent implements OnInit {
 
   isLoggedIn:boolean;
   user:User;
-  myLoginSubscription:any;
-  myUsernameSubscription:any;
+  userSubscription:any;
+  usernameSubscription:any;
   loginForm: boolean;
   errormessage:string;
 
@@ -37,17 +37,17 @@ export class HeaderComponent implements OnInit {
       });
       this.isLoggedIn = true;
     }
-    this.myLoginSubscription = this.userservice.loginStatusChange().subscribe(s => {
+    this.userSubscription = this.userservice.loginStatusChange().subscribe(s => {
       this.isLoggedIn = s;
     });
-    this.myUsernameSubscription = this.userservice.usernameStatusChange().subscribe(s => {
+    this.usernameSubscription = this.userservice.usernameStatusChange().subscribe(s => {
       this.user.username = s;
     });
   }
 
   ngOnDestroy() {
-    if (this.myLoginSubscription) {
-      this.myLoginSubscription.unsubscribe();
+    if (this.userSubscription) {
+      this.userSubscription.unsubscribe();
     }
   }
 
@@ -76,15 +76,15 @@ export class HeaderComponent implements OnInit {
   login(form:NgForm){
     this.userservice.loginUser(form.value).subscribe(r => {
       this.errormessage = "";
-        // window.location.pathname = "/profile";
-        // this.router.navigateByUrl("/", {skipLocationChange:true}).then(() => {
-        //   this.router.navigate(["/profile"]); // Uppdatera headern på nått vis
-        // });
-      //this.userservice.getUser().subscribe(u => {
+      
         this.userservice.loginSuccess();
         this.user = r;
         this.loginForm = false;
-      //})
+        if(window.location.pathname.includes("register")){
+          this.router.navigateByUrl("/", {skipLocationChange:true}).then(() => {
+            this.router.navigate(["/profile"]);
+          });
+        }
   
     }, error => {
       this.userservice.loginFailed();

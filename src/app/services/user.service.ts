@@ -64,6 +64,11 @@ export class UserService {
     return this.http.put(this.url + "/changecredentials", form, {withCredentials: true, responseType: "text"});
   }
 
+  deleteUser(){
+    this.isLoggedIn.next(false);
+    return this.http.delete(this.url + "/deleteuser", {withCredentials: true})
+  }
+
   saveTrack(body){
     return this.http.post(this.url + "/savetrack", body,  {withCredentials: true, responseType: "text"});
   }

@@ -2,6 +2,8 @@ import { Component, Input, OnInit } from '@angular/core';
 import { User } from 'src/app/models/User';
 import { FormControl, NgForm } from "@angular/forms"
 import { UserService } from 'src/app/services/user.service';
+import { CookieService } from 'ngx-cookie-service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-profile-form',
@@ -10,7 +12,7 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class ProfileFormComponent implements OnInit {
 
-  constructor(private userservice:UserService) { }
+  constructor(private userservice:UserService, private cookieService:CookieService, private router:Router) { }
   @Input() user:User;
   passwordErrorMsg:string;
   userErrorMsg:string;
@@ -50,6 +52,21 @@ export class ProfileFormComponent implements OnInit {
       console.log(err);
     })
     return this.passwordErrorMsg = "";
+  }
+
+  deleteUser(){
+    this.userservice.deleteUser().subscribe(r => {
+      if(r != "200"){
+        return console.log("Kunde inte logga ut")
+      }
+      this.user = null;
+      this.cookieService.delete("sid", "/")
+
+      this.router.navigateByUrl("/", {skipLocationChange:true}).then(() => {
+        this.router.navigate(["/index"]);
+      });
+      
+    })
   }
 
 }

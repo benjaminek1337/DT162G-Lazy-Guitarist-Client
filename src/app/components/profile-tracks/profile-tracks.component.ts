@@ -47,7 +47,6 @@ export class ProfileTracksComponent implements OnInit {
   }
 
   sortTracks(dbTracks:DbListedTrack[]){
-    console.log(dbTracks)
     for (let i = 0; i < dbTracks.length; i++) {
       const track = dbTracks[i];
       if(track.progress.includes("Vill lära mig")){

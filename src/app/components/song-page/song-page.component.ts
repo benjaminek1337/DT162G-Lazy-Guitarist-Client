@@ -26,7 +26,7 @@ export class SongPageComponent implements OnInit {
   auth_token:any;
   premiumUser:boolean;
   authenticationRefreshInterval:any;
-  mySubscription:any;
+  userSubscription:any;
   isLoggedIn: boolean;
 
   // TODO - försöka passa in songdata från search genom routes. ActivatedRoute = manage states. FUGG svårare än tänkt. spara till sen
@@ -35,7 +35,7 @@ export class SongPageComponent implements OnInit {
   ngOnInit(): void {
     this.isLoggedIn = this.cookieService.check("sid");
     
-    this.mySubscription = this.userservice.loginStatusChange().subscribe(s => {
+    this.userSubscription = this.userservice.loginStatusChange().subscribe(s => {
       this.isLoggedIn = s;
     });
 
@@ -44,8 +44,8 @@ export class SongPageComponent implements OnInit {
   }
 
   ngOnDestroy() {
-    if (this.mySubscription) {
-      this.mySubscription.unsubscribe();
+    if (this.userSubscription) {
+      this.userSubscription.unsubscribe();
     }
   }
 

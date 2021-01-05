@@ -2,10 +2,11 @@
     height: 250px;
     overflow-y:auto;
     cursor: pointer;
-
+    width: 95%;
 }
 
 h5 {
+    margin-left:20px;
     -webkit-user-select: none;
     cursor: pointer;
 }
