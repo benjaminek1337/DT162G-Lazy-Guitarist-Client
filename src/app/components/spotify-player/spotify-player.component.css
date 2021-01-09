@@ -95,15 +95,17 @@
 }
 
 .volume-area {
-    margin:auto;
+    position: relative;
     margin-top:10px;
     width:255px;
     margin-left:0px;
 }
 
 .volume-slider {
-    position: relative;
-    top:4px;
+    position:absolute;
+    top: 45%;
+    left: 42%;
+    transform: translate(-50%, -50%);
     -webkit-appearance: none;
     width: 60%;
     height: 5px;
@@ -114,18 +116,21 @@
 }
 
 .volume-slider::-webkit-slider-thumb {
+
     -webkit-appearance: none;
     appearance: none;
     width: 10px;
     height: 10px;
-    background: black;
+    border-radius: 10px;
+    background: rgb(144, 161, 175);
     cursor: pointer;
 }
 
 .volume-slider::-moz-range-thumb {
     width: 10px;
     height: 10px;
-    background:  black;
+    border-radius: 10px;
+    background: rgb(144, 161, 175);
     cursor: pointer;
 }
 
@@ -148,6 +153,7 @@
     appearance: none;
     width: 12px;
     height: 12px;
+    border-radius: 10px;
     background: rgb(124, 165, 122);
     cursor: pointer;
 }
@@ -155,6 +161,7 @@
 .duration-slider::-moz-range-thumb {
     width: 12px;
     height: 12px;
+    border-radius: 10px;
     background:  rgb(124, 165, 122);
     cursor: pointer;
 }

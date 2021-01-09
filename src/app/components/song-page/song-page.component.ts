@@ -28,19 +28,17 @@ export class SongPageComponent implements OnInit {
   authenticationRefreshInterval:any;
   userSubscription:any;
   isLoggedIn: boolean;
+  likePercentage: number;
 
   // TODO - försöka passa in songdata från search genom routes. ActivatedRoute = manage states. FUGG svårare än tänkt. spara till sen
   // TODO - Försöka få till ETT försök till auteneicering automatiskt
 
   ngOnInit(): void {
     this.isLoggedIn = this.cookieService.check("sid");
-    
     this.userSubscription = this.userservice.loginStatusChange().subscribe(s => {
       this.isLoggedIn = s;
     });
-
     this.getSpotifyTrack();
-    
   }
 
   ngOnDestroy() {
@@ -97,6 +95,10 @@ export class SongPageComponent implements OnInit {
         }
       }
     }
+  }
+
+  setLikePercentage(_likePercentage:number){
+    this.likePercentage = _likePercentage;
   }
 
   contains(target, pattern):boolean{

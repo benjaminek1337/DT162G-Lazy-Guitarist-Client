@@ -1,4 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ɵEmptyOutletComponent } from '@angular/router';
 import { DbLikedTrack } from 'src/app/models/DbLikedTrack';
 import { DbSavedTrack } from 'src/app/models/DbSavedTrack';
 import { DbTrack } from 'src/app/models/DbTrack';
@@ -15,6 +16,7 @@ export class SongPageUserSettingsComponent implements OnInit {
   constructor(private userservice:UserService) { }
 
   @Input() track:Track;
+  @Output() likePercentageEmitter = new EventEmitter<number>();
 
   dbTrack:DbTrack;
   dbSavedTrack:DbSavedTrack;
@@ -29,7 +31,7 @@ export class SongPageUserSettingsComponent implements OnInit {
     this.getTrackdataFromDb();
   }
 
-  async getTrackdataFromDb(){
+  getTrackdataFromDb(){
     this.userservice.getLikedTrack(this.track.id).subscribe(t => {
       if(t){
         this.dbLikedTrack = t;
@@ -54,9 +56,20 @@ export class SongPageUserSettingsComponent implements OnInit {
     this.userservice.getTrack(this.track.id).subscribe(t => {
       if(t)
         this.dbTrack = t;
+        this.getLikePercentage();
     }, err => {
       console.log("Spår finns ej i db");
     });
+  }
+
+  getLikePercentage(){
+    let likePercentage: number;
+    if(this.dbTrack && this.dbTrack.likes + this.dbTrack.dislikes > 0){
+      likePercentage = this.dbTrack.likes / (this.dbTrack.likes + this.dbTrack.dislikes) * 100;
+    } else {
+      likePercentage = -1;
+    }
+    this.likePercentageEmitter.emit(likePercentage);
   }
 
   isLikeBtnDisabled(){
@@ -127,6 +140,7 @@ export class SongPageUserSettingsComponent implements OnInit {
       this.likeBtnDisabled = (s == "true") ? true : false;
       this.userservice.getTrack(this.track.id).subscribe(t => {
         this.dbTrack = t;
+        this.getLikePercentage();
       }, err => {
         console.log("Något hände vid rating")
       })

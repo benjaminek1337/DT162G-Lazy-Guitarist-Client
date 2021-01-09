@@ -9,14 +9,20 @@
         </div>
 
         <div *ngIf="isLoggedIn" class="logged-in-stuff">
-            <app-song-page-user-settings [track]="track"></app-song-page-user-settings>
+            <app-song-page-user-settings (likePercentageEmitter)="setLikePercentage($event)" [track]="track"></app-song-page-user-settings>
         </div>
     </div>
     
     <div class="right-col">
-        <h1>{{ track.title }}</h1>
-        <h2>{{ track.artist }}</h2>
-        <hr>
+        <div class="track-header">
+            <div class="track-title">
+                <h1>{{ track.title }}</h1>
+                <h2>{{ track.artist }}</h2>
+            </div>
+            <div class="track-grade">
+                <h5 *ngIf="likePercentage > -1">{{ likePercentage }}% av användarna gillar låtsidan</h5>
+            </div>
+        </div>
         <app-song-page-youtube-player [track]="track"></app-song-page-youtube-player>
         <div class="external-resources">
             <p class="ug-search" (click)="ultimateGuitarSearch();">Sök efter <span class="ug-title">{{ track.title }}</span> på Ultimate Guitar</p>

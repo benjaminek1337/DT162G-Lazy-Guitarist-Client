@@ -36,7 +36,7 @@ export class SongPageYoutubePlayerComponent implements OnInit {
       }
       this.videoId = r[0].id.videoId;
     }, err => {
-      console.log(err)
+      console.log("Maximala antalet sökningar har nog gjorts.")
     })
   }
 

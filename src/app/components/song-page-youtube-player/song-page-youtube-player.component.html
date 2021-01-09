@@ -2,13 +2,18 @@
 videoId="{{ videoId }}"
 [height]="403" 
 [width]="717"></youtube-player>
-<h5 class="videos-btn" *ngIf="!videoListShowing" (click)="displayVideoList(true)">+ Visa fler videor</h5>
-<h5 class="videos-btn" *ngIf="videoListShowing" (click)="displayVideoList(false)">- Dölj videor</h5>
+<h5 class="videos-btn" *ngIf="!videoListShowing && videoList.length > 0" (click)="displayVideoList(true)">+ Visa fler videor</h5>
+<h5 class="videos-btn" *ngIf="videoListShowing && videoList.length > 0" (click)="displayVideoList(false)">- Dölj videor</h5>
+<h5 *ngIf="videoList.length == 0">
+    Innehåll från Youtube kunde ej läsas in på grund av att den här webbplatsens maximala antal Youtube-sökningar för dagen nåtts.
+    My bad, måste utöka kvoten på något vänster.
+</h5>
 <div class="video-list" *ngIf="videoListShowing">
     <ul *ngFor="let video of videoList">
         <li (click)="changeVideo(video.id.videoId)">
             <div class="text-container">
                 <span [innerHTML]="video.snippet.title"></span>
+                <span>LÄGG TILL KANALNAMN</span>
             </div>
             <div class="img-container">
                 <img src="{{ video.snippet.thumbnails.default.url }}" alt="">
