@@ -1,0 +1,45 @@
+.staff-pick-wrapper{
+    margin:auto;
+    background-color: rgba(209, 209, 209, 0.068);
+    width:250px;
+    padding:10px;
+    border-radius: 0.2em;
+    cursor: pointer;
+    -webkit-box-shadow: 5px 5px 10px 0px rgba(0,0,0,0.4);
+    -moz-box-shadow: 5px 5px 10px 0px rgba(0,0,0,0.4);
+    box-shadow: 5px 5px 10px 0px rgba(0, 0, 0, 0.4);
+}
+
+h2{
+    font-size: 1.7em;
+    width:300px;
+    margin:0px;
+    margin-bottom:10px;
+    text-align: center;
+    background-color: rgb(255, 166, 0);
+    color:black;
+    padding:10px;
+    border-top-style: dashed;
+    border-bottom-style: dashed;
+    border-width: 5px;
+    transform: rotate(5deg);
+    -webkit-box-shadow: 5px 5px 10px 0px rgba(0,0,0,0.4);
+    -moz-box-shadow: 5px 5px 10px 0px rgba(0,0,0,0.4);
+    box-shadow: 5px 5px 10px 0px rgba(0, 0, 0, 0.4);
+}
+
+img{
+    width:250px;
+}
+
+#artist{
+    font-size: large;
+    margin: 0;
+    margin-bottom:5px;
+}
+
+#album{
+    margin: 0;
+    margin-bottom:5px;
+    font-style: italic;
+}

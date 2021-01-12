@@ -14,6 +14,7 @@ export class SpotifyNotAuthenticatedComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  // Autenticera användaren mot Spotify
   authenticate(){
     console.log("Fetching Authentication Token")
     this.spotifyService.getAuthenticated(window.location.href);

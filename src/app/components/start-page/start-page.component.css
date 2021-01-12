@@ -1,12 +1,27 @@
-h1{
-    margin-top:150px;
+.blurb{
+    margin-left:30px;
+    width:50%;
+    float:left;    
+    margin-bottom:10px;
+    font-size: 1.1em;
     background-color: rgb(255, 166, 0);
     color:black;
     padding:10px;
     border-top-style: dashed;
     border-bottom-style: dashed;
     border-width: 5px;
-    font-size: xx-large;
+    transform: rotate(-1deg);
+    -webkit-box-shadow: 5px 5px 10px 0px rgba(0,0,0,0.4);
+    -moz-box-shadow: 5px 5px 10px 0px rgba(0,0,0,0.4);
+    box-shadow: 5px 5px 10px 0px rgba(0, 0, 0, 0.4);
+
+}
+
+h1{
     text-align: center;
-    transform: rotate(8deg);
+}
+
+.staff-pick{
+    width:31%;
+    float:right;
 }

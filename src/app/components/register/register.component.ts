@@ -16,8 +16,9 @@ export class RegisterComponent implements OnInit {
     private userservice:UserService, 
     private router:Router, 
     private cookieService:CookieService) { }
-  user_auth_token:string;
 
+  
+  // Kolla om användare är inloggad via cookie, redirecta till profilsida isf
   ngOnInit(): void {
     if(this.cookieService.check("sid")){
       this.userservice.getUser().subscribe(u => {
@@ -30,6 +31,7 @@ export class RegisterComponent implements OnInit {
     }    
   }
 
+  // Registrera användaren genom en form
   register(form:NgForm){
     this.userservice.registerUser(form.value).subscribe(r => {
       window.location.pathname = "/profile";

@@ -12,10 +12,11 @@ import { UserService } from 'src/app/services/user.service';
 export class ProfileTracksComponent implements OnInit {
 
   constructor(private userservice:UserService, private router:Router) { }
-  @Input() user:User;
-  dbTracks: DbListedTrack[] = [];
-  anyTracks: boolean;
+  @Input() user:User; // Användarobjekt importerat från profilkomponenten
+  dbTracks: DbListedTrack[] = []; // Användarens sparade låtar hämtade från databas
+  anyTracks: boolean; // Finns det spår alls?
 
+  // Listor som låtar sorteras till beroende på användarens progress med låten
   noProgress:DbListedTrack[] = [];
   someProgress:DbListedTrack[] = [];
   fullProgress:DbListedTrack[] = []
@@ -25,6 +26,7 @@ export class ProfileTracksComponent implements OnInit {
     this.getTracks();
   }
 
+  // Hämtar spår kopplat till användaren från databas, skriva till array
   getTracks(){
     this.userservice.getUserTracks().subscribe(t => {
       for (let i = 0; i < t.length; i++) {
@@ -41,11 +43,12 @@ export class ProfileTracksComponent implements OnInit {
       }
       this.sortTracks(this.dbTracks);
     }, err => {
-      console.log(err.error.message);
+      console.log(err.error)
       this.anyTracks = false;
     })
   }
 
+  // Sortera spåren till olika arrayer beroende på användarens progress
   sortTracks(dbTracks:DbListedTrack[]){
     for (let i = 0; i < dbTracks.length; i++) {
       const track = dbTracks[i];
@@ -59,12 +62,14 @@ export class ProfileTracksComponent implements OnInit {
     }
   }
 
+  // Navigera till låtens sida
   toTrack(trackId:string){
     this.router.navigateByUrl("/", {skipLocationChange:true}).then(() => {
       this.router.navigate(["/song/" + trackId])
     });
   }
 
+  // Ta bort sparad låt från användare
   removeTrack(trackId:string){
     this.userservice.deleteSavedTrack(trackId).subscribe(t => {
       this.dbTracks = [];

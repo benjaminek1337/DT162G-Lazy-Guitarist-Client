@@ -19,60 +19,75 @@ export class HeaderComponent implements OnInit {
     private cookieService:CookieService
   ) { }
 
-  isLoggedIn:boolean;
-  user:User;
-  userSubscription:any;
-  usernameSubscription:any;
-  loginForm: boolean;
-  errormessage:string;
+  isLoggedIn:boolean; // Om användaren är inloggad eller inte
+  user:User; // Användarobjekt
+  userSubscription:any; // Subscription som håller koll på huruvida användaren är inloggad eller ej
+  usernameSubscription:any; // Subscription som håller koll på om användarnamnet ändrats
+  loginForm: boolean; // Boolean som avgör om loginformulär ska visas eller ej
+  errormessage:string; // Felmeddelande att presentera till gränssnitt vid inloggningsfel
 
-  // TODO - Försök att uppdatera headern utan att reloada sidan
 
   ngOnInit(): void {
+    // Kolla om inloggningscookie finns. Skriva true/false till isLoggedIn beroende på. Sätta 
+    // värde till user om user finns
     if(this.cookieService.check("sid")){
       this.userservice.getUser().subscribe(u => {
         this.user = u;
+        this.isLoggedIn = true;
       }, err => {
         console.log(err);
       });
-      this.isLoggedIn = true;
     }
+    // Uppdatera om användare är inloggad eller ej
     this.userSubscription = this.userservice.loginStatusChange().subscribe(s => {
       this.isLoggedIn = s;
     });
+    // Uppdatera om användarnamnet förändras
     this.usernameSubscription = this.userservice.usernameStatusChange().subscribe(s => {
       this.user.username = s;
     });
   }
 
+  // Stänga subscriptions när komponent avladdas.
   ngOnDestroy() {
     if (this.userSubscription) {
       this.userSubscription.unsubscribe();
     }
+    if(this.usernameSubscription){
+      this.usernameSubscription.unsubscribe();
+    }
   }
 
+  // Routa till index
   toIndex(){
     this.router.navigateByUrl("/", {skipLocationChange:true}).then(() => {
       this.router.navigate(["/index"]);
     });
   }
 
+  // Visa loginformulär genom att toggla boolean till true
   toLogin(){
     this.loginForm = true;
   }
 
+  // Routa till register
   toRegister(){
     this.router.navigateByUrl("/", {skipLocationChange:true}).then(() => {
       this.router.navigate(["/register"]);
     });
   }
 
+  // Routa till profil
   toProfile(){
     this.router.navigateByUrl("/", {skipLocationChange:true}).then(() => {
       this.router.navigate(["/profile"]);
     });
   }
 
+  // Loginmetod. Skicka in form till server, ta emot ett user-objekt via JSON och 
+  // uppdatera headern till inloggat läge. Samt routa till profile om användare loggar in
+  // från sidan register
+  // Hanterar fel 
   login(form:NgForm){
     this.userservice.loginUser(form.value).subscribe(r => {
       this.errormessage = "";
@@ -89,16 +104,19 @@ export class HeaderComponent implements OnInit {
     }, error => {
       this.userservice.loginFailed();
       this.isLoggedIn = false;
-      this.errormessage = error.error;
-      console.log(error);
+      if(error.status < 500){ // Visa endast användarfel, inte serverfel
+        this.errormessage = error.error;
+      }
     });
   }
 
+  // Nolla felmeddelande, stänga loginform
   abort(){
     this.errormessage = "";
     this.loginForm = false;
   }
 
+  // Utloggning. Nolla user, radera cookie, routa till index om användare loggat ut från profilsida
   logout(){
     this.userservice.logout().subscribe(r => {
       if(r != "200"){

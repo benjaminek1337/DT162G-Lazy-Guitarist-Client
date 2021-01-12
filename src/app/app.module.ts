@@ -20,6 +20,7 @@ import { ProfileFormComponent } from './components/profile-form/profile-form.com
 import { ProfileTracksComponent } from './components/profile-tracks/profile-tracks.component';
 import { SongPageUserSettingsComponent } from './components/song-page-user-settings/song-page-user-settings.component';
 import { SongPageYoutubePlayerComponent } from './components/song-page-youtube-player/song-page-youtube-player.component';
+import { StartPageStaffPickComponent } from './components/start-page-staff-pick/start-page-staff-pick.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import { SongPageYoutubePlayerComponent } from './components/song-page-youtube-p
     ProfileFormComponent,
     ProfileTracksComponent,
     SongPageUserSettingsComponent,
-    SongPageYoutubePlayerComponent
+    SongPageYoutubePlayerComponent,
+    StartPageStaffPickComponent
   ],
   imports: [
     BrowserModule,

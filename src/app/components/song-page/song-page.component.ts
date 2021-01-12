@@ -17,22 +17,18 @@ export class SongPageComponent implements OnInit {
   constructor(
     private activatedRoute:ActivatedRoute,
     private spotifyService:SpotifyService,
-    private router:Router,
     private cookieService:CookieService,
     private userservice:UserService
     ) {}
     
-  track:Track;
-  auth_token:any;
-  premiumUser:boolean;
-  authenticationRefreshInterval:any;
-  userSubscription:any;
-  isLoggedIn: boolean;
-  likePercentage: number;
+  track:Track; // Objekt innehållande aktuellt spår
+  auth_token:any; // Spotify autenticeringstoken
+  premiumUser:boolean; // Har användaren ett spotify-premium konto?
+  userSubscription:any; // Håller koll på om användaren är inloggad eller ej
+  isLoggedIn: boolean; // Är användaren inloggad
+  likePercentage: number; // Hur stor andel användare har gillat låten
 
-  // TODO - försöka passa in songdata från search genom routes. ActivatedRoute = manage states. FUGG svårare än tänkt. spara till sen
-  // TODO - Försöka få till ETT försök till auteneicering automatiskt
-
+  // Kolla om anv är inloggad, subscriba för att löpande ha koll på om användaren är inloggad eller ej
   ngOnInit(): void {
     this.isLoggedIn = this.cookieService.check("sid");
     this.userSubscription = this.userservice.loginStatusChange().subscribe(s => {
@@ -41,12 +37,14 @@ export class SongPageComponent implements OnInit {
     this.getSpotifyTrack();
   }
 
+  // Skrota subscriptionen om användaren är inloggad för att förhindra dataläckor
   ngOnDestroy() {
     if (this.userSubscription) {
       this.userSubscription.unsubscribe();
     }
   }
 
+  // Hämta låt-info från API och fylla track-objekt med den info
   async getSpotifyTrack(){
     let id = this.activatedRoute.snapshot.paramMap.get("id");
     await this.spotifyService.getTrackByUri(id).subscribe(t => {
@@ -63,6 +61,7 @@ export class SongPageComponent implements OnInit {
     this.authenticate();
   }
 
+  // Hämtar alla artister tillhörande låten och formatera strängen
   getAllArtists(t:any):string{
     let artists:string = "";
       for (let i = 0; i < t.artists.length; i++) {
@@ -75,6 +74,7 @@ export class SongPageComponent implements OnInit {
     return artists;
   }
 
+  // Ta bort ord som remastered, remaster osv. 
   cutOffUnwantedSongTitleParts():void{
     const naughtyWords = ["(remastered)", "(remaster)", "remastered", "remaster",]
     if(this.contains(this.track.title.toLocaleLowerCase(), naughtyWords)){
@@ -97,10 +97,7 @@ export class SongPageComponent implements OnInit {
     }
   }
 
-  setLikePercentage(_likePercentage:number){
-    this.likePercentage = _likePercentage;
-  }
-
+  // Metod som kontrollerar om ett ord matchar ett pattern (finns "sök" i array["sök", "finna"])
   contains(target, pattern):boolean{
     for (let i = 0; i < pattern.length; i++) {
       const element = pattern[i];
@@ -110,19 +107,22 @@ export class SongPageComponent implements OnInit {
     return false;
   }
 
+  // Sätt värde till propertyn likePercentage
+  setLikePercentage(_likePercentage:number){
+    this.likePercentage = Math.round(_likePercentage);
+  }
+
+  // Spotify-autenticera användaren
   authenticate():void{
     if(this.cookieService.check("access_token")){
       this.auth_token = this.cookieService.get("access_token");
       this.isPremiumUser();
-      this.authenticationRefreshInterval = setInterval(() => {
-        this.authenticate();
-      }, 3550000)
     } else {
-      clearInterval(this.authenticationRefreshInterval);
       console.log("Authentication Token Not Found")
     }
   }
 
+  // Kontrollera om användaren har ett Spotify-premium konto
   isPremiumUser():void{
     this.spotifyService.getCurrentUser(this.auth_token).subscribe(u => {
       if(u.product == "premium")
@@ -130,7 +130,22 @@ export class SongPageComponent implements OnInit {
     });
   }
 
+  // Ta bort vissa specialtecken från sträng
+  stripUnwantedCharactersFromString(subject:string){
+    let output:string = "";
+    for (let i = 0; i < subject.length; i++) {
+      const element = subject[i];
+      if((/[a-öA-Ö0-9 ()]/).test(element)){
+        output += element;
+      }
+    }
+    return output;
+  }
+
+  // Skapa söksträng till Ultimate Guitars url och öppna i nytt fönster
   ultimateGuitarSearch():void{
-    window.open("https://www.ultimate-guitar.com/search.php?search_type=title&value=" + this.track.title + " " + this.track.artist, "_blank");
+    window.open("https://www.ultimate-guitar.com/search.php?search_type=title&value=" 
+    + this.stripUnwantedCharactersFromString(this.track.title) + " " 
+    + this.stripUnwantedCharactersFromString(this.track.artist), "_blank");
   }
 }

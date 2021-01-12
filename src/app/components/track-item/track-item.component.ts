@@ -16,6 +16,7 @@ export class TrackItemComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  // Emitta valt spår från sökning i sökrutan
   getTrack(track){
     this.sendTrack.emit(track);
   }

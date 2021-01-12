@@ -1,0 +1,9 @@
+<div class="staff-pick" *ngIf="staffPick">
+    <h2>REDAKTIONENS VAL</h2>
+    <div class="staff-pick-wrapper" (click)="toTrack()">
+        <img src="{{ staffPick.albumcover }}" alt="">
+        <h3 id="title">{{ staffPick.title }}</h3>
+        <p id="artist">{{ staffPick.artist }}</p>
+        <p id="album">{{ staffPick.album }}</p>
+    </div>
+</div>

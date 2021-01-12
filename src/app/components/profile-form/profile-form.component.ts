@@ -13,17 +13,17 @@ import { Router } from '@angular/router';
 export class ProfileFormComponent implements OnInit {
 
   constructor(private userservice:UserService, private cookieService:CookieService, private router:Router) { }
-  @Input() user:User;
-  passwordErrorMsg:string;
-  userErrorMsg:string;
+  @Input() user:User; // Importerad user från profilecomponent
+  passwordErrorMsg:string; // Felmeddelande gällande lösenordsbyte
+  userErrorMsg:string; // Felmeddelande gällande användarinfobyte
 
   ngOnInit(): void {
   }
 
+  // Form för att uppdatera användarens epost och anv namn
   updateUser(form:NgForm){
     if(form.value.username && form.value.email){
       this.userservice.changeCredentials(form.value).subscribe(s => {
-        // Kanske emitta ned
         this.user.email = form.value.email;
         this.user.username = form.value.username;
         this.userservice.usernameChanged(form.value.username);
@@ -36,13 +36,12 @@ export class ProfileFormComponent implements OnInit {
       return this.userErrorMsg = "Fyll i fälten"
   }
 
+  // Form för att byta användarens lösenord. Gamla lösenordet måste va korrekt
+  // och nya måste valideras med repeat
   updatePassword(form:NgForm){
-    // Validera lösenord mot databas först
     if(form.value.newPassword != form.value.repeatPassword){
-
       return this.passwordErrorMsg = "Nya lösenorden stämmer ej överens";
     }
-    // Byt lösenord
     this.userservice.changePassword(form.value).subscribe(s => {
       alert("Lösenord bytt");
       form.resetForm();
@@ -54,6 +53,7 @@ export class ProfileFormComponent implements OnInit {
     return this.passwordErrorMsg = "";
   }
 
+  // Radera användare från databasen och logga ut, routa till index därefter
   deleteUser(){
     this.userservice.deleteUser().subscribe(r => {
       if(r != "200"){

@@ -23,11 +23,11 @@ li{
 }
 
 .img-container{
-    width: 15%;
+    width: 10%;
 }
 
 .text-container{
-    width:85%;
+    width:90%;
     float:right;
 }
 
@@ -37,4 +37,8 @@ span{
 
 img {
     height:40px;
+}
+
+.channel-name{
+    font-style: italic;
 }

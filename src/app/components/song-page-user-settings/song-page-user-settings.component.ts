@@ -18,19 +18,21 @@ export class SongPageUserSettingsComponent implements OnInit {
   @Input() track:Track;
   @Output() likePercentageEmitter = new EventEmitter<number>();
 
-  dbTrack:DbTrack;
-  dbSavedTrack:DbSavedTrack;
-  dbLikedTrack:DbLikedTrack;
+  dbTrack:DbTrack; // Objekt med info om låten från DB
+  dbSavedTrack:DbSavedTrack; // Objekt med info om användarens progress till låten
+  dbLikedTrack:DbLikedTrack; // Objekt med info om användaren gillat/ogillat låten
 
-  isTrackSaved:string;
-  likeBtnDisabled:boolean;
-  dislikeBtnDisabled:boolean;
-  progress:string;
+  isTrackSaved:string; // Har användarens sparat spåret
+  likeBtnDisabled:boolean; // Ska like-knappen va klickbar
+  dislikeBtnDisabled:boolean; // Ska dislikeknappen va klickbar
+  progress:string; // Hur går det för användaren med låten
 
   ngOnInit(): void {
     this.getTrackdataFromDb();
   }
 
+  // Hämta data till objekten dbTrack, dbSavedTrack, dbLikedTrack
+  // Hantera properties som styr gränssnittskontroller utifrån responserna
   getTrackdataFromDb(){
     this.userservice.getLikedTrack(this.track.id).subscribe(t => {
       if(t){
@@ -62,6 +64,7 @@ export class SongPageUserSettingsComponent implements OnInit {
     });
   }
 
+  // Ta reda på hur stor andel användare som gillat en låtsida
   getLikePercentage(){
     let likePercentage: number;
     if(this.dbTrack && this.dbTrack.likes + this.dbTrack.dislikes > 0){
@@ -72,18 +75,21 @@ export class SongPageUserSettingsComponent implements OnInit {
     this.likePercentageEmitter.emit(likePercentage);
   }
 
+  // Metod som avgör om like-knappen ska va klickbar
   isLikeBtnDisabled(){
     if(!this.dbSavedTrack)
       return this.likeBtnDisabled = false;
     return this.likeBtnDisabled =  this.dbLikedTrack.liked;
   }
 
+  // Metod som avgör om dislike-knappen ska va klickbar
   isDislikeBtnDisabled(){
     if(!this.dbSavedTrack)
       return this.dislikeBtnDisabled = false;
       return this.dislikeBtnDisabled =  this.dbLikedTrack.disliked;
   }
 
+  // Antalet likes låten har
   likesValue(){
     if(!this.dbTrack){
       return 0;
@@ -91,6 +97,7 @@ export class SongPageUserSettingsComponent implements OnInit {
     return this.dbTrack.likes;
   }
 
+  // Antalet dislikes låten har
   dislikesValue(){
     if(!this.dbTrack){
       return 0;
@@ -98,6 +105,7 @@ export class SongPageUserSettingsComponent implements OnInit {
     return this.dbTrack.dislikes;
   }
 
+  // Spara spåret till användaren
   saveTrack(){
     const track = { 
       trackId: this.track.id,
@@ -114,6 +122,7 @@ export class SongPageUserSettingsComponent implements OnInit {
     })
   }
 
+  // Metod som sätter användarens progression till låten
   setProgression(progress:string){
     const body = {
       trackId: this.track.id,
@@ -126,6 +135,7 @@ export class SongPageUserSettingsComponent implements OnInit {
     })
   }
 
+  // Användaren gillar/ogillar låten. Detta sparas till db
   rate(liked:string){
     const body = { 
       trackId: this.track.id,

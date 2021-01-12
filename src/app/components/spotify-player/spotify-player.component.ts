@@ -4,47 +4,48 @@ import { Component, HostListener, Input, OnInit } from '@angular/core';
 import { Track } from 'src/app/models/Track';
 import { SpotifyService } from "../../services/spotify.service";
 
-// Riktig raggarlösning. Men jag kan fan inte lyckas använda spotify sdkn genom npm paket.
+// Riktig raggarlösning. Men jag kan inte lyckas använda spotify sdkn genom npmreferensen ovan.
 // Hata mig inte
 
-function getToken(_token){ // Gets the auth token
+function getToken(_token){ // Hämtar autenticeringstoken
   token = _token;
 }
-function getTrack(_track){ // Get the track
+function getTrack(_track){ // Hämtar spåret som ska spelas
   track = _track;
 }
 
-let track;
+let track; 
 let token;
-let id; // Device Id
-let player; // Spotify player object
+let id; // Enhetens ID
+let player; // Spotify player objekt
 
-
+// Initialisera Spotifyplayer objektet
 window.onSpotifyWebPlaybackSDKReady = () => {
   player = new Spotify.Player({
     name: 'Lazy Guitarist Player',
     getOAuthToken: cb => { cb(token); }
   });
 
-  // Error handling
+  // Eventlisteners kopplade till spotifyspelarobjektet
+  // Felhantering
   player.addListener('initialization_error', ({ message }) => { console.error(message); });
   player.addListener('authentication_error', ({ message }) => { console.error(message); });
   player.addListener('account_error', ({ message }) => { console.error(message); });
-  player.addListener('playback_error', ({ message }) => { console.error(message); });
+  //player.addListener('playback_error', ({ message }) => { console.error(message); });
 
-  // Ready
+  // Spelaren redo
   player.addListener('ready', ({ device_id }) => {
     console.log('Ready with Device ID', device_id);
     id = device_id;
     player.setVolume(0.8);
   });
 
-  // Not Ready
+  // Spelaren inte redo
   player.addListener('not_ready', ({ device_id }) => {
     console.log('Device ID has gone offline', device_id);
   });
 
-  // Playback status updates
+  // Playbackstatus uppdaterad
   player.addListener('player_state_changed', state => { 
     //console.log(state); 
   });
@@ -61,25 +62,23 @@ export class SpotifyPlayerComponent implements OnInit {
   constructor(
     private spotifyService:SpotifyService, 
   ) { }
-  @Input() track:Track; // The selected track
-  @Input() auth_token:string; // Spotify authorization token
-  loadAPI: Promise<any>; // Promise which resolves into the loading of the spotify sdk into a script tag in the HTML document head
-
-  playBtn: string; // Class string for play btn
-  volumeBtn: string;  // Class string for vol btn
-  volume: number; // Value of the volume slider
-  durationSlider: number; // Max value of the song duration slider
-  playbackPosition: number; // Current playback position
-  songLoaded: boolean; // Has a song been loaded to the player
-  playbackInterval: any; // Interval where the current state of the song is set
-  playerArea: string; // Property for playerarea div class
+  @Input() track:Track; // Valt spår
+  @Input() auth_token:string; // Auth-token från soptify
+  loadAPI: Promise<any>; // Promise som när resolvat laddar in spotifyspelaren till DOMen
+  playBtn: string; // String som styr CSS-klass till spela-knappen
+  volumeBtn: string;  // String som styr CSS-klass till volymknappen
+  volume: number; // Värde på volumslider
+  durationSlider: number; // Hur lång låten är i ms - appliceras på slidern som visar låtens duration
+  playbackPosition: number; // Hur långt låten spelats i ms
+  songLoaded: boolean; // Har en låt blivit laddad in till spelaren
+  playbackInterval: any; // Interval som löpande uppdaterar duration-slidern med aktuell position i låten
+  playerArea: string; // Sträng för CSS-klass till hela spelaren
 
   ngOnInit(): void {
-    //this.authenticate();
+
     getToken(this.auth_token);
     getTrack(this.track.id);
-    this.playerArea = "player-area-disabled";
-    // testar med .then istället
+    this.playerArea = "player-area-disabled"; // Spelare olickbar tills spelarobjektet är redo
     this.loadAPI = new Promise(async (resolve) => {
       this.loadSpotifySDKScript();
       resolve(true);
@@ -90,13 +89,14 @@ export class SpotifyPlayerComponent implements OnInit {
       }, 250)
     })
     .catch(res => console.log("Error: " + res));
-    this.playBtn = "paused";
-    this.songLoaded = false;
-    this.durationSlider = this.track.duration;
-    this.playbackPosition = 0;
-    this.volume = 80;
+    this.playBtn = "paused"; //Grundläge för spelaknappens CSS
+    this.songLoaded = false; // Låt ej inladdad än
+    this.durationSlider = this.track.duration; // Sätt värde på duration-slidern
+    this.playbackPosition = 0; // Nolla durationsliderns position
+    this.volume = 80; // Sätt grundvolym
   }
 
+  // Disconnecta spelaren och rensa playback-intervallet
   @HostListener("window:beforeunload", ["$event"])
   unloadHandler(event: Event){
     this.songLoaded = false;
@@ -104,12 +104,14 @@ export class SpotifyPlayerComponent implements OnInit {
     clearInterval(this.playbackInterval);
   }
 
+  // Disconnecta spelaren och rensa playback-intervallet
   ngOnDestroy(){
     this.songLoaded = false;
     player.disconnect();
     clearInterval(this.playbackInterval);
   }
 
+  // Spela/pausa låten. Ladda in låt om låt inte är inladdad 
   playBtnClick(){
       if(!this.songLoaded){
         this.loadSong();
@@ -121,6 +123,7 @@ export class SpotifyPlayerComponent implements OnInit {
       player.togglePlay();
   }
 
+  // Hämta låt att spela från Spotifys API
   loadSong(){
     fetch(`https://api.spotify.com/v1/me/player/play?device_id=${id}`, {
         method: 'PUT',
@@ -133,6 +136,7 @@ export class SpotifyPlayerComponent implements OnInit {
     console.log("song loaded");
   } 
 
+  // Sätt intervall som uppdaterar properties med hur långt gången låten är, och om låten är pausad eller ej
   playingOrPausedEvents(){
   this.playbackInterval = setInterval(() => {
         player.getCurrentState().then(state => {
@@ -145,13 +149,17 @@ export class SpotifyPlayerComponent implements OnInit {
     }, 300)
   }
 
+  // Spola tbx låten 10 sekunder
   backTenSecBtnClick(){
     this.reverseForMs(10000);
   }
 
+  // Spola tbx låten 30 sekunder
   backThirtySecBtnClick(){
     this.reverseForMs(30000);
   }
+
+  // EJ IMPLEMENTERAD FUNKTION (ÄN), ställ in ett tidsintervall av låten att repterera om och om igen
   repeatInterval;
   backIntervalBtnClick(){
     // value = 1000;    
@@ -162,10 +170,12 @@ export class SpotifyPlayerComponent implements OnInit {
     console.log("to be implemented")
   }
 
+  // Rensa tidsintervallsrepeteringen
   clearBackIntevalBtnClick(){
     clearInterval(this.repeatInterval);
   }
 
+  // Minska låtens duration med x millisekunder (spola tbx)
   reverseForMs(time){
     player.getCurrentState().then(state => {
       if(!state){
@@ -178,12 +188,14 @@ export class SpotifyPlayerComponent implements OnInit {
     })
   }
 
+  // Muta volymen
   volBtnClick(){
     player.setVolume(0);
     this.volume = 0;
     this.volumeBtn = "mute";
   }
 
+  // Ändra volym på låten
   volSliderChange(value){
     this.volume = value;
     player.setVolume(value / (100 + ((100 - value) * 2)));
@@ -196,6 +208,7 @@ export class SpotifyPlayerComponent implements OnInit {
       }
   }
 
+  // Spola fram eller tbx manuellt med duration slidern
   durationSliderChange(value){
     try {
       player.seek(value)
@@ -205,6 +218,7 @@ export class SpotifyPlayerComponent implements OnInit {
     }
   }
 
+  // Ladda in spotifys SDK till DOMen om den inte redan är där
   loadSpotifySDKScript(){
     let isFound = false;
     let scripts = document.getElementsByTagName("script");
@@ -224,20 +238,4 @@ export class SpotifyPlayerComponent implements OnInit {
       document.getElementsByTagName('head')[0].appendChild(node);
     }
   }
-
-  // authenticate(){
-  //   // Bryt ut autenticering till en annan komponent (klicka här för autenticering eller nått, tänk om flödet lite)
-  //   let cookies = document.cookie.split(";");
-  //   for (let i = 0; i < cookies.length; i++) {
-  //     const cookiePair = cookies[i].split("=");
-  //     if(cookiePair[0].trim() == "access_token"){
-  //         console.log("Authentication Token Found");
-  //         this.auth_token = cookiePair[1];
-  //     }
-  //     else {
-  //       console.log("Fetching Authentication Token")
-  //       this.spotifyService.getAuthenticated(window.location.href);
-  //     }
-  //   }
-  // }
 }
